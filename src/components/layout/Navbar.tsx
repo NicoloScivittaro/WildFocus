@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
 import { siteConfig } from '@/data/siteConfig'
+import { Logo } from '@/components/ui/Logo'
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -9,8 +10,8 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-ink/10 bg-base/80 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <NavLink to="/" className="font-display text-lg text-ink" onClick={() => setIsOpen(false)}>
-          WildFocus
+        <NavLink to="/" onClick={() => setIsOpen(false)}>
+          <Logo />
         </NavLink>
 
         <nav className="hidden items-center gap-6 md:flex" aria-label="Navigazione principale">
@@ -20,7 +21,7 @@ export function Navbar() {
               to={item.to}
               end={item.to === '/'}
               className={({ isActive }) =>
-                `text-sm transition-colors ${isActive ? 'text-accent' : 'text-ink-muted hover:text-ink'}`
+                `text-sm transition-colors ${isActive ? 'text-accent-deep' : 'text-ink-muted hover:text-ink'}`
               }
             >
               {item.label}

@@ -11,10 +11,11 @@ export default {
         },
         ink: {
           DEFAULT: '#23201A',
-          muted: '#6E6650',
+          muted: '#55503D',
         },
         accent: {
           DEFAULT: '#B7D82A',
+          deep: '#5C6913',
         },
       },
       fontFamily: {

@@ -26,14 +26,14 @@ export default function ContactPage() {
 
           {preselectedService && (
             <p className="mt-3 text-sm text-ink-muted">
-              Servizio selezionato: <span className="text-accent">{preselectedService}</span>
+              Servizio selezionato: <span className="text-accent-deep">{preselectedService}</span>
             </p>
           )}
 
           <ol className="mt-8 space-y-3 text-sm text-ink-muted">
             {afterSubmitSteps.map((step, index) => (
               <li key={step} className="flex items-center gap-3">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-surface text-xs text-accent">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-surface text-xs text-accent-deep">
                   {index + 1}
                 </span>
                 {step}
@@ -44,13 +44,13 @@ export default function ContactPage() {
           <div className="mt-8 space-y-2 text-sm text-ink-muted">
             <p>
               Email:{' '}
-              <a href={`mailto:${siteConfig.email}`} className="text-accent hover:underline">
+              <a href={`mailto:${siteConfig.email}`} className="text-accent-deep hover:underline">
                 {siteConfig.email}
               </a>
             </p>
             <p>
               WhatsApp:{' '}
-              <a href={siteConfig.whatsappLink} target="_blank" rel="noreferrer" className="text-accent hover:underline">
+              <a href={siteConfig.whatsappLink} target="_blank" rel="noreferrer" className="text-accent-deep hover:underline">
                 Scrivici su WhatsApp
               </a>
             </p>

@@ -19,7 +19,7 @@ export function SocialProof() {
         {siteConfig.trustStats.map((stat) => (
           <div key={stat.label}>
             <dt className="text-sm text-ink-muted">{stat.label}</dt>
-            <dd className="mt-1 font-display text-2xl text-accent">{stat.value}</dd>
+            <dd className="mt-1 font-display text-2xl text-accent-deep">{stat.value}</dd>
           </div>
         ))}
       </dl>

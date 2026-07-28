@@ -16,7 +16,7 @@ export function TeamMember({ member }: TeamMemberProps) {
         )}
       </div>
       <h3 className="mt-4 font-display text-lg text-ink">{member.name}</h3>
-      <p className="text-sm text-accent">{member.role}</p>
+      <p className="text-sm text-accent-deep">{member.role}</p>
       <p className="mt-3 text-sm text-ink-muted">{member.bio}</p>
       <ul className="mt-3 flex flex-wrap justify-center gap-2 text-xs text-ink-muted">
         {member.skills.map((skill) => (

@@ -243,7 +243,7 @@ export function ContactForm() {
             />
             <label htmlFor="privacyAccepted" className="text-sm text-ink-muted">
               Ho letto e accetto la{' '}
-              <a href="/privacy-policy" className="text-accent underline">
+              <a href="/privacy-policy" className="text-accent-deep underline">
                 Privacy Policy
               </a>
               .

@@ -17,7 +17,7 @@ export function PackageCard({ plan }: PackageCardProps) {
         ))}
       </ul>
 
-      <p className="mt-6 font-display text-lg text-accent">{plan.priceLabel}</p>
+      <p className="mt-6 font-display text-lg text-accent-deep">{plan.priceLabel}</p>
 
       <Link
         to={`/contatti?pacchetto=${plan.slug}`}

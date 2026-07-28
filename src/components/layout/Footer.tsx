@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom'
 import { siteConfig } from '@/data/siteConfig'
+import { Logo } from '@/components/ui/Logo'
 
 export function Footer() {
   return (
     <footer className="border-t border-ink/10 bg-base">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 md:grid-cols-4">
         <div>
-          <p className="font-display text-lg text-ink">WildFocus</p>
+          <Logo />
           <p className="mt-2 text-sm text-ink-muted">{siteConfig.positioning}</p>
         </div>
 

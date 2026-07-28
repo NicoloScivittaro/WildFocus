@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Play } from 'lucide-react'
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
+import { FocusFrame } from '@/components/ui/FocusFrame'
 
 interface VideoPlayerProps {
   title: string
@@ -36,6 +37,8 @@ export function VideoPlayer({ title, poster, src }: VideoPlayerProps) {
   return (
     <div className="relative aspect-video w-full overflow-hidden rounded-xl2 border border-ink/10">
       <img src={poster} alt={title} className="h-full w-full object-cover" loading="lazy" />
+      <div className="grain-overlay" />
+      <FocusFrame size="lg" tone="accent" inset="inset-4 md:inset-5" />
       {!showStaticPosterOnly && (
         <button
           type="button"
@@ -49,7 +52,8 @@ export function VideoPlayer({ title, poster, src }: VideoPlayerProps) {
         </button>
       )}
       {showStaticPosterOnly && (
-        <p className="absolute bottom-3 left-3 rounded-full bg-black/50 px-3 py-1 text-xs text-white">
+        <p className="absolute bottom-3 left-3 flex items-center gap-2 rounded-full bg-black/50 px-3 py-1 text-xs text-white">
+          <span className="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true" />
           Showreel — [PLACEHOLDER]
         </p>
       )}

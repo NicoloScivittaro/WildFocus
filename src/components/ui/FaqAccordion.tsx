@@ -29,7 +29,7 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
               >
                 <span>{item.question}</span>
                 <ChevronDown
-                  className={`transition-transform ${isOpen ? 'rotate-180 text-accent' : 'text-ink-muted'}`}
+                  className={`transition-transform ${isOpen ? 'rotate-180 text-accent-deep' : 'text-ink-muted'}`}
                   aria-hidden="true"
                 />
               </button>

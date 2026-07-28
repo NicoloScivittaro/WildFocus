@@ -11,7 +11,7 @@ export function PortfolioHighlight() {
     <section className="py-12">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <SectionTitle eyebrow="Portfolio" title="Progetti in evidenza" />
-        <Link to="/portfolio" className="text-sm font-semibold text-accent hover:underline">
+        <Link to="/portfolio" className="text-sm font-semibold text-accent-deep hover:underline">
           Scopri i nostri lavori
         </Link>
       </div>

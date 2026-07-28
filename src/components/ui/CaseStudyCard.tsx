@@ -7,7 +7,7 @@ interface CaseStudyCardProps {
 export function CaseStudyCard({ project }: CaseStudyCardProps) {
   return (
     <article className="rounded-xl2 border border-ink/10 bg-surface p-6">
-      <p className="text-xs uppercase tracking-wide text-accent">{project.serviceProvided}</p>
+      <p className="text-xs uppercase tracking-wide text-accent-deep">{project.serviceProvided}</p>
       <h3 className="mt-1 font-display text-lg text-ink">{project.title}</h3>
 
       <dl className="mt-4 space-y-3 text-sm">

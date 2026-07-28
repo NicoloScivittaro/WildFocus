@@ -21,7 +21,7 @@ export default function PrivacyPolicyPage() {
             <p>
               Allo stato attuale il sito non utilizza cookie di profilazione o strumenti di analytics. Per i dettagli
               sui cookie tecnici, consulta la{' '}
-              <a href="/cookie-policy" className="text-accent underline">
+              <a href="/cookie-policy" className="text-accent-deep underline">
                 Cookie Policy
               </a>
               .

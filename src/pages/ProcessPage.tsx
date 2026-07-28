@@ -28,7 +28,7 @@ export default function ProcessPage() {
         <div className="mt-8 grid gap-6 md:grid-cols-2">
           {phases.map((phase, index) => (
             <div key={phase.name} className="rounded-xl2 border border-ink/10 bg-surface p-6">
-              <span className="text-sm font-semibold text-accent">Fase {index + 1}</span>
+              <span className="text-sm font-semibold text-accent-deep">Fase {index + 1}</span>
               <h3 className="mt-1 font-display text-xl text-ink">{phase.name}</h3>
               <ul className="mt-3 space-y-1 text-sm text-ink-muted">
                 {phase.steps.map((step) => (
