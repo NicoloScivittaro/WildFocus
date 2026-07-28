@@ -1,0 +1,29 @@
+import { Link } from 'react-router-dom'
+import { VideoPlayer } from '@/components/ui/VideoPlayer'
+import { siteConfig } from '@/data/siteConfig'
+import { heroPosterDataUri } from '@/lib/placeholderPoster'
+
+export function Hero() {
+  return (
+    <section className="grid gap-10 py-12 md:grid-cols-2 md:items-center md:py-20">
+      <div>
+        <h1 className="font-display text-4xl leading-tight text-ink md:text-5xl">
+          Contenuti che catturano l&apos;attenzione.
+          <br />
+          Immagini che fanno crescere il tuo brand.
+        </h1>
+        <p className="mt-4 max-w-lg text-ink-muted">{siteConfig.positioning}</p>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link to="/contatti" className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-base hover:opacity-90">
+            {siteConfig.primaryCta}
+          </Link>
+          <Link to="/portfolio" className="rounded-full border border-white/20 px-6 py-3 text-sm text-ink hover:border-white/40">
+            Guarda i nostri lavori
+          </Link>
+        </div>
+      </div>
+
+      <VideoPlayer title="Showreel WildFocus" poster={heroPosterDataUri} />
+    </section>
+  )
+}
