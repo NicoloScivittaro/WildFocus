@@ -2815,8 +2815,9 @@ describe('ContactForm', () => {
   })
 
   it('completes the 3-step flow and shows the confirmation message', async () => {
-    vi.useFakeTimers()
-    const user = userEvent.setup({ delay: null })
+    const startTime = 1_700_000_000_000
+    const dateNowSpy = vi.spyOn(Date, 'now').mockReturnValue(startTime)
+    const user = userEvent.setup()
 
     render(<ContactForm />)
 
@@ -2831,17 +2832,20 @@ describe('ContactForm', () => {
 
     await user.click(screen.getByLabelText(/ho letto e accetto/i))
 
-    vi.setSystemTime(Date.now() + 4000)
+    // Jump the clock forward past the anti-spam minimum-delay threshold
+    // without touching setTimeout, so userEvent's own internal timing is untouched.
+    dateNowSpy.mockReturnValue(startTime + 4000)
 
     await user.click(screen.getByRole('button', { name: 'Richiedi un preventivo' }))
-    await vi.advanceTimersByTimeAsync(500)
 
-    expect(screen.getByRole('status')).toHaveTextContent('Richiesta inviata')
+    expect(await screen.findByRole('status')).toHaveTextContent('Richiesta inviata')
 
-    vi.useRealTimers()
+    dateNowSpy.mockRestore()
   })
 })
 ```
+
+Note: an earlier draft of this test used `vi.useFakeTimers()` + `userEvent.setup({ delay: null })`. That combination deadlocks — `userEvent`'s internal scheduling and React's async state updates depend on real timers, so the test hangs until Vitest's default 5000ms timeout kills it. Mocking `Date.now` directly (as above) achieves the same anti-spam-timing control without touching `setTimeout`, so `userEvent` and the `contactService` mock's own `setTimeout(resolve, 400)` keep running on real time.
 
 - [ ] **Step 2: Run the tests to verify they fail**
 
