@@ -3505,8 +3505,8 @@ export function SocialProof() {
       <SectionTitle eyebrow="Prova sociale" title="Chi ha lavorato con noi" align="center" />
 
       <div className="mt-8 grid gap-6 md:grid-cols-3">
-        {testimonials.map((testimonial) => (
-          <TestimonialCard key={testimonial.author + testimonial.quote} testimonial={testimonial} />
+        {testimonials.map((testimonial, index) => (
+          <TestimonialCard key={index} testimonial={testimonial} />
         ))}
       </div>
 
@@ -3522,6 +3522,8 @@ export function SocialProof() {
   )
 }
 ```
+
+Note: the key is the array index, not `testimonial.author + testimonial.quote` — the demo data in `data/testimonials.ts` reuses the same `[TESTIMONIANZA CLIENTE]`/`[NOME MEMBRO TEAM]` placeholder text for every entry, so a content-derived key collides across items (React "duplicate key" warning). The list is static (no reordering/insertion), so an index key is safe here.
 
 - [ ] **Step 13: Implement `src/sections/home/FinalCta.tsx`**
 
@@ -5069,8 +5071,8 @@ export function SocialProof() {
       <SectionTitle eyebrow="Prova sociale" title="Chi ha lavorato con noi" align="center" />
 
       <Reveal className="mt-8 grid gap-6 md:grid-cols-3">
-        {testimonials.map((testimonial) => (
-          <TestimonialCard key={testimonial.author + testimonial.quote} testimonial={testimonial} />
+        {testimonials.map((testimonial, index) => (
+          <TestimonialCard key={index} testimonial={testimonial} />
         ))}
       </Reveal>
 
