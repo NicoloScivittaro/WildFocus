@@ -2546,14 +2546,14 @@ const project: Project = {
   category: 'commercial',
   summary: 'Sommario',
   serviceProvided: 'Video Editing',
-  clientGoal: 'Obiettivo del cliente',
+  clientGoal: 'Aumentare la coerenza visiva del brand',
   result: 'Risultato qualitativo',
 }
 
 describe('CaseStudyCard', () => {
   it('renders the client goal and the result', () => {
     render(<CaseStudyCard project={project} />)
-    expect(screen.getByText('Obiettivo del cliente')).toBeInTheDocument()
+    expect(screen.getByText('Aumentare la coerenza visiva del brand')).toBeInTheDocument()
     expect(screen.getByText('Risultato qualitativo')).toBeInTheDocument()
   })
 
