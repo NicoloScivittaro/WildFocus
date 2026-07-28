@@ -7,7 +7,7 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-base/80 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-ink/10 bg-base/80 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <NavLink to="/" className="font-display text-lg text-ink" onClick={() => setIsOpen(false)}>
           WildFocus
@@ -28,7 +28,7 @@ export function Navbar() {
           ))}
           <NavLink
             to="/contatti"
-            className="rounded-full bg-accent px-4 py-2 text-sm font-semibold text-base hover:opacity-90"
+            className="rounded-full bg-accent px-4 py-2 text-sm font-semibold text-ink hover:opacity-90"
           >
             {siteConfig.primaryCta}
           </NavLink>
@@ -46,7 +46,7 @@ export function Navbar() {
       </div>
 
       {isOpen && (
-        <nav className="border-t border-white/10 px-4 py-4 md:hidden" aria-label="Navigazione mobile">
+        <nav className="border-t border-ink/10 px-4 py-4 md:hidden" aria-label="Navigazione mobile">
           <ul className="flex flex-col gap-4">
             {siteConfig.nav.map((item) => (
               <li key={item.to}>
@@ -58,7 +58,7 @@ export function Navbar() {
             <li>
               <NavLink
                 to="/contatti"
-                className="inline-block rounded-full bg-accent px-4 py-2 text-sm font-semibold text-base"
+                className="inline-block rounded-full bg-accent px-4 py-2 text-sm font-semibold text-ink"
                 onClick={() => setIsOpen(false)}
               >
                 {siteConfig.primaryCta}

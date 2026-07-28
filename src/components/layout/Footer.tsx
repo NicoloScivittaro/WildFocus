@@ -3,7 +3,7 @@ import { siteConfig } from '@/data/siteConfig'
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-base">
+    <footer className="border-t border-ink/10 bg-base">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 md:grid-cols-4">
         <div>
           <p className="font-display text-lg text-ink">WildFocus</p>
@@ -45,7 +45,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-white/10 px-4 py-6">
+      <div className="border-t border-ink/10 px-4 py-6">
         <div className="mx-auto flex max-w-6xl flex-col gap-2 text-xs text-ink-muted md:flex-row md:items-center md:justify-between">
           <p>© {new Date().getFullYear()} WildFocus. Tutti i diritti riservati.</p>
           <div className="flex gap-4">

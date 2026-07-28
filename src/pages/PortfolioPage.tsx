@@ -47,8 +47,8 @@ export default function PortfolioPage() {
               aria-pressed={activeFilter === filter.value}
               className={`rounded-full border px-4 py-2 text-sm transition ${
                 activeFilter === filter.value
-                  ? 'border-accent bg-accent text-base'
-                  : 'border-white/20 text-ink-muted hover:border-white/40'
+                  ? 'border-accent bg-accent text-ink'
+                  : 'border-ink/20 text-ink-muted hover:border-ink/40'
               }`}
             >
               {filter.label}

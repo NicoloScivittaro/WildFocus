@@ -31,7 +31,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <Link
       to={`/portfolio/${project.slug}`}
-      className="group block overflow-hidden rounded-xl2 border border-white/10 bg-surface transition hover:border-accent/60"
+      className="group block overflow-hidden rounded-xl2 border border-ink/10 bg-surface transition hover:border-accent/60"
     >
       <div className="relative aspect-video w-full">
         {hasRealMedia && project.coverImage ? (
@@ -44,7 +44,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         ) : (
           <div
             data-testid="project-placeholder"
-            className="flex h-full w-full flex-col items-center justify-center gap-2 bg-gradient-to-br from-zinc-900 to-black p-4 text-center text-ink-muted"
+            className="flex h-full w-full flex-col items-center justify-center gap-2 bg-gradient-to-br from-zinc-900 to-black p-4 text-center text-white/60"
           >
             <CategoryIcon aria-hidden="true" />
             <span className="text-sm">

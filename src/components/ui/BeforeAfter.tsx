@@ -9,13 +9,13 @@ export function BeforeAfter({ data }: BeforeAfterProps) {
   const [revealPercent, setRevealPercent] = useState(50)
 
   return (
-    <div className="rounded-xl2 border border-white/10 bg-surface p-4">
-      <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-white/10 bg-zinc-900">
-        <div className="absolute inset-0 flex items-center justify-center px-4 text-center text-sm text-ink-muted">
+    <div className="rounded-xl2 border border-ink/10 bg-surface p-4">
+      <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-ink/10 bg-zinc-900">
+        <div className="absolute inset-0 flex items-center justify-center px-4 text-center text-sm text-white/70">
           Dopo — {data.after}
         </div>
         <div
-          className="absolute inset-y-0 left-0 flex items-center overflow-hidden border-r-2 border-accent bg-black px-4 text-sm text-ink-muted"
+          className="absolute inset-y-0 left-0 flex items-center overflow-hidden border-r-2 border-accent bg-black px-4 text-sm text-white/70"
           style={{ width: `${revealPercent}%` }}
         >
           <span className="whitespace-nowrap">Prima — {data.before}</span>

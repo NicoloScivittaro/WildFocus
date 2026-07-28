@@ -11,7 +11,7 @@ export default function NotFoundPage() {
         <p className="mt-3 text-ink-muted">La pagina che cerchi non esiste o è stata spostata.</p>
         <Link
           to="/"
-          className="mt-8 inline-block rounded-full bg-accent px-6 py-3 text-sm font-semibold text-base hover:opacity-90"
+          className="mt-8 inline-block rounded-full bg-accent px-6 py-3 text-sm font-semibold text-ink hover:opacity-90"
         >
           Torna alla Home
         </Link>

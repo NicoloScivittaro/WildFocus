@@ -59,7 +59,7 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="rounded-xl2 border border-white/10 bg-surface p-6 md:p-8">
+    <form onSubmit={handleSubmit} noValidate className="rounded-xl2 border border-ink/10 bg-surface p-6 md:p-8">
       <p className="text-sm text-ink-muted">Passo {step} di 3</p>
 
       <div className="hidden" aria-hidden="true">
@@ -87,7 +87,7 @@ export function ContactForm() {
               required
               value={fields.fullName}
               onChange={(event) => updateField('fullName', event.target.value)}
-              className="mt-1 w-full rounded-lg border border-white/10 bg-base px-3 py-2 text-ink"
+              className="mt-1 w-full rounded-lg border border-ink/10 bg-base px-3 py-2 text-ink"
             />
           </div>
           <div>
@@ -100,7 +100,7 @@ export function ContactForm() {
               required
               value={fields.email}
               onChange={(event) => updateField('email', event.target.value)}
-              className="mt-1 w-full rounded-lg border border-white/10 bg-base px-3 py-2 text-ink"
+              className="mt-1 w-full rounded-lg border border-ink/10 bg-base px-3 py-2 text-ink"
             />
           </div>
           <div>
@@ -112,7 +112,7 @@ export function ContactForm() {
               required
               value={fields.service}
               onChange={(event) => updateField('service', event.target.value)}
-              className="mt-1 w-full rounded-lg border border-white/10 bg-base px-3 py-2 text-ink"
+              className="mt-1 w-full rounded-lg border border-ink/10 bg-base px-3 py-2 text-ink"
             >
               <option value="">Seleziona un servizio</option>
               {services.map((service) => (
@@ -130,7 +130,7 @@ export function ContactForm() {
               id="companyOrProject"
               value={fields.companyOrProject ?? ''}
               onChange={(event) => updateField('companyOrProject', event.target.value)}
-              className="mt-1 w-full rounded-lg border border-white/10 bg-base px-3 py-2 text-ink"
+              className="mt-1 w-full rounded-lg border border-ink/10 bg-base px-3 py-2 text-ink"
             />
           </div>
         </fieldset>
@@ -149,7 +149,7 @@ export function ContactForm() {
               rows={4}
               value={fields.projectDescription}
               onChange={(event) => updateField('projectDescription', event.target.value)}
-              className="mt-1 w-full rounded-lg border border-white/10 bg-base px-3 py-2 text-ink"
+              className="mt-1 w-full rounded-lg border border-ink/10 bg-base px-3 py-2 text-ink"
             />
           </div>
           <div>
@@ -161,7 +161,7 @@ export function ContactForm() {
               required
               value={fields.timeline}
               onChange={(event) => updateField('timeline', event.target.value)}
-              className="mt-1 w-full rounded-lg border border-white/10 bg-base px-3 py-2 text-ink"
+              className="mt-1 w-full rounded-lg border border-ink/10 bg-base px-3 py-2 text-ink"
             />
           </div>
           <div>
@@ -174,7 +174,7 @@ export function ContactForm() {
               onChange={(event) =>
                 updateField('budget', (event.target.value || undefined) as BudgetRange | undefined)
               }
-              className="mt-1 w-full rounded-lg border border-white/10 bg-base px-3 py-2 text-ink"
+              className="mt-1 w-full rounded-lg border border-ink/10 bg-base px-3 py-2 text-ink"
             >
               <option value="">Preferisco non specificare</option>
               {budgetOptions.map((option) => (
@@ -198,7 +198,7 @@ export function ContactForm() {
               id="materialsLink"
               value={fields.materialsLink ?? ''}
               onChange={(event) => updateField('materialsLink', event.target.value)}
-              className="mt-1 w-full rounded-lg border border-white/10 bg-base px-3 py-2 text-ink"
+              className="mt-1 w-full rounded-lg border border-ink/10 bg-base px-3 py-2 text-ink"
             />
           </div>
           <div>
@@ -209,7 +209,7 @@ export function ContactForm() {
               id="phone"
               value={fields.phone ?? ''}
               onChange={(event) => updateField('phone', event.target.value)}
-              className="mt-1 w-full rounded-lg border border-white/10 bg-base px-3 py-2 text-ink"
+              className="mt-1 w-full rounded-lg border border-ink/10 bg-base px-3 py-2 text-ink"
             />
           </div>
           <div>
@@ -222,7 +222,7 @@ export function ContactForm() {
               onChange={(event) =>
                 updateField('contactPreference', (event.target.value || undefined) as ContactPreference | undefined)
               }
-              className="mt-1 w-full rounded-lg border border-white/10 bg-base px-3 py-2 text-ink"
+              className="mt-1 w-full rounded-lg border border-ink/10 bg-base px-3 py-2 text-ink"
             >
               <option value="">Nessuna preferenza</option>
               {contactPreferenceOptions.map((option) => (
@@ -268,7 +268,7 @@ export function ContactForm() {
             type="button"
             onClick={goNext}
             disabled={!isStepValid}
-            className="rounded-full bg-accent px-6 py-2 text-sm font-semibold text-base disabled:opacity-40"
+            className="rounded-full bg-accent px-6 py-2 text-sm font-semibold text-ink disabled:opacity-40"
           >
             Continua
           </button>
@@ -276,7 +276,7 @@ export function ContactForm() {
           <button
             type="submit"
             disabled={!isStepValid || status === 'submitting'}
-            className="rounded-full bg-accent px-6 py-2 text-sm font-semibold text-base disabled:opacity-40"
+            className="rounded-full bg-accent px-6 py-2 text-sm font-semibold text-ink disabled:opacity-40"
           >
             {status === 'submitting' ? 'Invio in corso…' : 'Richiedi un preventivo'}
           </button>

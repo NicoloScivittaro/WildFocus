@@ -30,7 +30,7 @@ export default function AboutPage() {
 
         <ul className="mt-8 flex flex-wrap gap-3">
           {values.map((value) => (
-            <li key={value} className="rounded-full border border-white/10 bg-surface px-4 py-2 text-sm text-ink-muted">
+            <li key={value} className="rounded-full border border-ink/10 bg-surface px-4 py-2 text-sm text-ink-muted">
               {value}
             </li>
           ))}

@@ -6,15 +6,15 @@ export default {
     extend: {
       colors: {
         base: {
-          DEFAULT: '#0A0A0B',
-          surface: '#16161A',
+          DEFAULT: '#F7F0D8',
+          surface: '#EFE4C4',
         },
         ink: {
-          DEFAULT: '#F5F5F5',
-          muted: '#A0A0A8',
+          DEFAULT: '#23201A',
+          muted: '#6E6650',
         },
         accent: {
-          DEFAULT: '#C4F135',
+          DEFAULT: '#B7D82A',
         },
       },
       fontFamily: {

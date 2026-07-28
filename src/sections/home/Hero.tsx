@@ -15,10 +15,10 @@ export function Hero() {
         </h1>
         <p className="mt-4 max-w-lg text-ink-muted">{siteConfig.positioning}</p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link to="/contatti" className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-base hover:opacity-90">
+          <Link to="/contatti" className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-ink hover:opacity-90">
             {siteConfig.primaryCta}
           </Link>
-          <Link to="/portfolio" className="rounded-full border border-white/20 px-6 py-3 text-sm text-ink hover:border-white/40">
+          <Link to="/portfolio" className="rounded-full border border-ink/20 px-6 py-3 text-sm text-ink hover:border-ink/40">
             Guarda i nostri lavori
           </Link>
         </div>

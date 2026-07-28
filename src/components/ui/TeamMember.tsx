@@ -7,7 +7,7 @@ interface TeamMemberProps {
 
 export function TeamMember({ member }: TeamMemberProps) {
   return (
-    <article className="rounded-xl2 border border-white/10 bg-surface p-6 text-center">
+    <article className="rounded-xl2 border border-ink/10 bg-surface p-6 text-center">
       <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-base text-ink-muted">
         {member.photo ? (
           <img src={member.photo} alt={member.name} className="h-24 w-24 rounded-full object-cover" />
@@ -20,7 +20,7 @@ export function TeamMember({ member }: TeamMemberProps) {
       <p className="mt-3 text-sm text-ink-muted">{member.bio}</p>
       <ul className="mt-3 flex flex-wrap justify-center gap-2 text-xs text-ink-muted">
         {member.skills.map((skill) => (
-          <li key={skill} className="rounded-full border border-white/10 px-2 py-1">
+          <li key={skill} className="rounded-full border border-ink/10 px-2 py-1">
             {skill}
           </li>
         ))}

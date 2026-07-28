@@ -28,7 +28,7 @@ export default function CollaborationsPage() {
 
         <ul className="mt-8 grid gap-3 sm:grid-cols-2">
           {recurringServices.map((service) => (
-            <li key={service} className="rounded-xl border border-white/10 bg-surface p-4 text-sm text-ink-muted">
+            <li key={service} className="rounded-xl border border-ink/10 bg-surface p-4 text-sm text-ink-muted">
               {service}
             </li>
           ))}

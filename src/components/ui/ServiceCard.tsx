@@ -7,7 +7,7 @@ interface ServiceCardProps {
 
 export function ServiceCard({ service }: ServiceCardProps) {
   return (
-    <article className="flex flex-col rounded-xl2 border border-white/10 bg-surface p-6">
+    <article className="flex flex-col rounded-xl2 border border-ink/10 bg-surface p-6">
       <h3 className="font-display text-xl text-ink">{service.title}</h3>
       <p className="mt-3 text-ink-muted">{service.outcomeStatement}</p>
       <p className="mt-3 text-sm text-ink-muted">
@@ -33,7 +33,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
 
       <Link
         to={`/contatti?servizio=${service.slug}`}
-        className="mt-6 inline-block rounded-full border border-accent px-4 py-2 text-center text-sm font-semibold text-accent hover:bg-accent hover:text-base"
+        className="mt-6 inline-block rounded-full border border-accent px-4 py-2 text-center text-sm font-semibold text-accent hover:bg-accent hover:text-ink"
       >
         {service.ctaLabel}
       </Link>
