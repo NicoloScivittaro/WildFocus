@@ -1,0 +1,29 @@
+/*
+  Placeholder font files: drop real .woff2 exports into /public/fonts using
+  these exact names, or update the src paths here. Until real files exist,
+  browsers silently fall back to the system stack defined in
+  tailwind.config.ts (no visual break, no console error).
+*/
+@font-face {
+  font-family: 'Wild Display';
+  src: url('/fonts/wild-display-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Wild Body';
+  src: url('/fonts/wild-body-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Wild Body';
+  src: url('/fonts/wild-body-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
