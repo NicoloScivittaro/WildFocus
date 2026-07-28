@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { SectionTitle } from '@/components/ui/SectionTitle'
 import { ProjectCard } from '@/components/ui/ProjectCard'
+import { Reveal } from '@/components/ui/Reveal'
 import { projects } from '@/data/projects'
 
 export function PortfolioHighlight() {
@@ -15,11 +16,11 @@ export function PortfolioHighlight() {
         </Link>
       </div>
 
-      <div className="mt-8 grid gap-6 md:grid-cols-3">
+      <Reveal className="mt-8 grid gap-6 md:grid-cols-3">
         {highlighted.map((project) => (
           <ProjectCard key={project.slug} project={project} />
         ))}
-      </div>
+      </Reveal>
     </section>
   )
 }

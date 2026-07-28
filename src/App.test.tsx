@@ -23,22 +23,26 @@ describe('App routing', () => {
 
   it('renders the Home hero heading at the root route', async () => {
     renderApp('/')
-    expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent(
-      /contenuti che catturano l'attenzione/i,
-    )
+    expect(
+      await screen.findByRole('heading', { level: 1 }, { timeout: 5000 }),
+    ).toHaveTextContent(/contenuti che catturano l'attenzione/i)
   })
 
   it('renders the 404 page for an unknown route', async () => {
     renderApp('/questa-pagina-non-esiste')
-    expect(await screen.findByText('Pagina non trovata')).toBeInTheDocument()
+    expect(await screen.findByText('Pagina non trovata', {}, { timeout: 5000 })).toBeInTheDocument()
   })
 
-  it('does not 404 for any navbar link', async () => {
-    for (const item of siteConfig.nav) {
-      const { unmount } = renderApp(item.to)
-      expect(await screen.findByRole('link', { name: 'WildFocus' })).toBeInTheDocument()
-      expect(screen.queryByText('Pagina non trovata')).not.toBeInTheDocument()
-      unmount()
-    }
-  })
+  it(
+    'does not 404 for any navbar link',
+    async () => {
+      for (const item of siteConfig.nav) {
+        const { unmount } = renderApp(item.to)
+        expect(await screen.findByRole('link', { name: 'WildFocus' }, { timeout: 5000 })).toBeInTheDocument()
+        expect(screen.queryByText('Pagina non trovata')).not.toBeInTheDocument()
+        unmount()
+      }
+    },
+    20000,
+  )
 })

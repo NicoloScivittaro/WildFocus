@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom'
 import { VideoPlayer } from '@/components/ui/VideoPlayer'
+import { Reveal } from '@/components/ui/Reveal'
 import { siteConfig } from '@/data/siteConfig'
 import { heroPosterDataUri } from '@/lib/placeholderPoster'
 
 export function Hero() {
   return (
     <section className="grid gap-10 py-12 md:grid-cols-2 md:items-center md:py-20">
-      <div>
+      <Reveal>
         <h1 className="font-display text-4xl leading-tight text-ink md:text-5xl">
           Contenuti che catturano l&apos;attenzione.
           <br />
@@ -21,9 +22,11 @@ export function Hero() {
             Guarda i nostri lavori
           </Link>
         </div>
-      </div>
+      </Reveal>
 
-      <VideoPlayer title="Showreel WildFocus" poster={heroPosterDataUri} />
+      <Reveal>
+        <VideoPlayer title="Showreel WildFocus" poster={heroPosterDataUri} />
+      </Reveal>
     </section>
   )
 }
