@@ -1,8 +1,8 @@
 import { Hero } from '@/sections/home/Hero'
 import { PortfolioHighlight } from '@/sections/home/PortfolioHighlight'
 import { ServicesSummary } from '@/sections/home/ServicesSummary'
-// import { SocialProof } from '@/sections/home/SocialProof'
 import { FinalCta } from '@/sections/home/FinalCta'
+import { Marquee } from '@/components/motion/Marquee'
 import { Seo } from '@/seo/Seo'
 
 export default function HomePage() {
@@ -15,11 +15,14 @@ export default function HomePage() {
       <div className="mx-auto max-w-6xl px-4">
         <Hero />
         <PortfolioHighlight />
+
+        {/* Typographic band: a breath between the work and the services. */}
+        <Marquee
+          items={['WILDFOCUS', 'VIDEO', 'SOUND', 'DESIGN', 'DIGITAL']}
+          className="-mx-4 border-y border-ink/10 py-6 font-display text-3xl text-ink/30 md:text-5xl"
+        />
+
         <ServicesSummary />
-        {/* Prova sociale — disattivata temporaneamente. Riattivare rimuovendo
-            questo commento e l'import di SocialProof qui sopra.
-        <SocialProof />
-        */}
         <FinalCta />
       </div>
     </>

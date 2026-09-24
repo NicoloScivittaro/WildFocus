@@ -9,8 +9,11 @@ export function BeforeAfter({ data }: BeforeAfterProps) {
   const [revealPercent, setRevealPercent] = useState(50)
 
   return (
-    <div className="rounded-xl2 border border-ink/10 bg-surface p-4">
-      <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-ink/10 bg-zinc-900">
+    <div className="rounded-xl2 border border-ink/10 bg-surface p-4 transition-colors duration-500 hover:border-accent-deep/40">
+      <div
+        data-cursor="DRAG"
+        className="relative aspect-video w-full overflow-hidden rounded-xl border border-ink/10 bg-zinc-900"
+      >
         <div className="absolute inset-0 flex items-center justify-center px-4 text-center text-sm text-white/70">
           Dopo — {data.after}
         </div>

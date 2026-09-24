@@ -44,9 +44,10 @@ export function VideoPlayer({ title, poster, src }: VideoPlayerProps) {
           type="button"
           onClick={() => setIsPlaying(true)}
           aria-label={`Riproduci ${title}`}
-          className="absolute inset-0 flex items-center justify-center bg-black/30 transition hover:bg-black/40"
+          data-cursor="PLAY"
+          className="group absolute inset-0 flex items-center justify-center bg-black/30 transition-colors duration-500 hover:bg-black/45"
         >
-          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-accent text-ink">
+          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-accent text-ink transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110">
             <Play fill="currentColor" />
           </span>
         </button>

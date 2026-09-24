@@ -3,6 +3,8 @@ import { Route, Routes } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
+import { CustomCursor } from '@/components/motion/CustomCursor'
+import { PageTransition } from '@/components/motion/PageTransition'
 import { siteConfig } from '@/data/siteConfig'
 
 const HomePage = lazy(() => import('@/pages/HomePage'))
@@ -24,6 +26,8 @@ function App() {
       <Helmet>
         <script type="application/ld+json">{JSON.stringify(siteConfig.jsonLd)}</script>
       </Helmet>
+      <CustomCursor />
+      <PageTransition />
       <Navbar />
       <main className="flex-1">
         <Suspense fallback={<div className="px-4 py-24 text-center text-ink-muted">Caricamento…</div>}>

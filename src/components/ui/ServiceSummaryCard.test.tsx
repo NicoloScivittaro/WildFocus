@@ -21,4 +21,14 @@ describe('ServiceSummaryCard', () => {
     expect(screen.queryByText('· Reel')).not.toBeInTheDocument()
     expect(screen.queryByText('· Esempio 1')).not.toBeInTheDocument()
   })
+
+  it('gives the hovered card more presence and lets the others recede', () => {
+    const { container, unmount } = render(<ServiceSummaryCard service={service} isActive isDimmed={false} />)
+    expect(container.firstElementChild?.className).toContain('border-accent')
+    expect(container.firstElementChild?.className).toContain('opacity-100')
+    unmount()
+
+    const { container: dimmed } = render(<ServiceSummaryCard service={service} isActive={false} isDimmed />)
+    expect(dimmed.firstElementChild?.className).toContain('opacity-50')
+  })
 })
