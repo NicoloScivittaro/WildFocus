@@ -12,53 +12,6 @@ export function Footer() {
 
   return (
     <footer className="border-t border-ink/10 bg-base">
-      {/*
-        The last scene: the promise, then the door. WILD arrives out of focus
-        and resolves — the same gesture as the hero, closing the loop.
-      */}
-      <section className="bg-ink px-4 py-20 text-center md:py-28">
-        <SplitLines
-          as="h2"
-          mode="inView"
-          stagger={0.1}
-          lines={[
-            "LET'S MAKE",
-            <>
-              SOMETHING{' '}
-              {prefersReducedMotion ? (
-                <span>WILD.</span>
-              ) : (
-                <motion.span
-                  className="inline-block"
-                  initial={{ opacity: 0, filter: 'blur(14px)', scale: 1.06, skewX: 7 }}
-                  whileInView={{ opacity: 1, filter: 'blur(0px)', scale: 1, skewX: 0 }}
-                  viewport={VIEWPORT}
-                  transition={{ duration: 1.25, ease: EASE_FOCUS, delay: 0.18 }}
-                >
-                  WILD.
-                </motion.span>
-              )}
-            </>,
-          ]}
-          className="font-display text-4xl leading-[1.05] text-base md:text-7xl"
-        />
-
-        <div className="mt-10 flex justify-center">
-          <MagneticButton strength={9}>
-            <Link
-              to={siteConfig.startProjectPath}
-              data-cursor="GO →"
-              className="group relative overflow-hidden rounded-full bg-accent px-8 py-4 text-sm font-semibold tracking-[0.14em] text-ink"
-            >
-              <span className="absolute inset-0 -translate-x-full bg-accent-deep transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-0" />
-              <span className="relative transition-colors duration-500 group-hover:text-base">
-                START A PROJECT →
-              </span>
-            </Link>
-          </MagneticButton>
-        </div>
-      </section>
-
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 md:grid-cols-4">
         <div>
           <Logo />
