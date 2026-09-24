@@ -1,14 +1,8 @@
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
 import { siteConfig } from '@/data/siteConfig'
 import { Logo } from '@/components/ui/Logo'
-import { SplitLines } from '@/components/motion/SplitLines'
-import { MagneticButton } from '@/components/motion/MagneticButton'
-import { EASE_FOCUS, VIEWPORT } from '@/lib/motion'
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 
 export function Footer() {
-  const prefersReducedMotion = usePrefersReducedMotion()
 
   return (
     <footer className="border-t border-ink/10 bg-base">
