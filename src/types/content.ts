@@ -102,3 +102,9 @@ export interface FaqItem {
   question: string
   answer: string
 }
+
+export interface ConfiguratorOption {
+  id: string
+  label: string
+  hint: string
+}

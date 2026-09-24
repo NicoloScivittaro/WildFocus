@@ -28,7 +28,7 @@ export function Navbar() {
             </NavLink>
           ))}
           <NavLink
-            to="/contatti"
+            to={siteConfig.startProjectPath}
             className="rounded-full bg-accent px-4 py-2 text-sm font-semibold text-ink hover:opacity-90"
           >
             {siteConfig.primaryCta}
@@ -58,7 +58,7 @@ export function Navbar() {
             ))}
             <li>
               <NavLink
-                to="/contatti"
+                to={siteConfig.startProjectPath}
                 className="inline-block rounded-full bg-accent px-4 py-2 text-sm font-semibold text-ink"
                 onClick={() => setIsOpen(false)}
               >

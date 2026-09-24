@@ -40,3 +40,14 @@ export interface ContactResult {
   ok: boolean
   error?: string
 }
+
+/** Risposte raccolte dal configuratore progetto, prima dei dati di contatto. */
+export interface ProjectBrief {
+  /** Cosa stiamo realizzando — id di `projectKinds`. */
+  kind: string
+  /** Obiettivo del progetto — id di `projectGoals`. */
+  goal: string
+  budget?: BudgetRange
+  deadline: string
+  references: string
+}

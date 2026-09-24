@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { Navbar } from './Navbar'
+import { siteConfig } from '@/data/siteConfig'
 
 describe('Navbar', () => {
   it('toggles the mobile menu when the hamburger button is clicked', async () => {
@@ -18,8 +19,13 @@ describe('Navbar', () => {
     expect(screen.queryByLabelText('Navigazione mobile')).not.toBeInTheDocument()
   })
 
-  it('shows the primary CTA label from siteConfig', () => {
+  it('points the primary CTA at the project configurator', () => {
     render(<Navbar />, { wrapper: MemoryRouter })
-    expect(screen.getAllByText('Parliamo del tuo progetto').length).toBeGreaterThan(0)
+
+    expect(screen.getAllByText(siteConfig.primaryCta).length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('link', { name: siteConfig.primaryCta })[0]).toHaveAttribute(
+      'href',
+      siteConfig.startProjectPath,
+    )
   })
 })

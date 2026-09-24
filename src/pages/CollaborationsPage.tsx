@@ -38,6 +38,7 @@ export default function CollaborationsPage() {
           <CTASection
             title="Costruiamo il prossimo contenuto"
             description="Raccontaci le tue esigenze mensili: troviamo insieme il ritmo di produzione giusto."
+            ctaLabel="Parliamo del tuo progetto"
             ctaTo="/contatti?servizio=collaborazione-continuativa"
           />
         </div>

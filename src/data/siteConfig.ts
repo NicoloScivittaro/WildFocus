@@ -14,7 +14,8 @@ export const siteConfig = {
   name: 'WildFocus',
   positioning:
     'Video e contenuti visivi per aziende, creator e attività che vogliono aumentare attenzione, autorevolezza e conversioni.',
-  primaryCta: 'Parliamo del tuo progetto',
+  primaryCta: 'Start a project →',
+  startProjectPath: '/progetto',
   secondaryCta: 'Richiedi un preventivo',
   city: '[CITTÀ]',
   responseTime: '[TEMPO REALE]',

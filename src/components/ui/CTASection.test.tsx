@@ -2,11 +2,22 @@ import { describe, expect, it } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { CTASection } from './CTASection'
+import { siteConfig } from '@/data/siteConfig'
 
 describe('CTASection', () => {
-  it('renders the primary CTA pointing to /contatti by default', () => {
+  it('renders the primary CTA pointing to the project configurator by default', () => {
     render(<CTASection title="Parliamo del tuo progetto" />, { wrapper: MemoryRouter })
-    expect(screen.getByRole('link', { name: 'Parliamo del tuo progetto' })).toHaveAttribute('href', '/contatti')
+
+    expect(screen.getByRole('link', { name: siteConfig.primaryCta })).toHaveAttribute(
+      'href',
+      siteConfig.startProjectPath,
+    )
+  })
+
+  it('lets a page override the CTA destination', () => {
+    render(<CTASection title="Test" ctaLabel="Scrivici" ctaTo="/contatti" />, { wrapper: MemoryRouter })
+
+    expect(screen.getByRole('link', { name: 'Scrivici' })).toHaveAttribute('href', '/contatti')
   })
 
   it('renders a secondary CTA only when explicitly provided', () => {

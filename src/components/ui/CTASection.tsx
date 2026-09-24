@@ -14,7 +14,7 @@ export function CTASection({
   title,
   description,
   ctaLabel = siteConfig.primaryCta,
-  ctaTo = '/contatti',
+  ctaTo = siteConfig.startProjectPath,
   secondaryLabel,
   secondaryTo,
 }: CTASectionProps) {

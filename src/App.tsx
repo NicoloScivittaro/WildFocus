@@ -12,6 +12,7 @@ const PortfolioDetailPage = lazy(() => import('@/pages/PortfolioDetailPage'))
 const AboutPage = lazy(() => import('@/pages/AboutPage'))
 const ProcessPage = lazy(() => import('@/pages/ProcessPage'))
 const CollaborationsPage = lazy(() => import('@/pages/CollaborationsPage'))
+const ProjectPage = lazy(() => import('@/pages/ProjectPage'))
 const ContactPage = lazy(() => import('@/pages/ContactPage'))
 const PrivacyPolicyPage = lazy(() => import('@/pages/PrivacyPolicyPage'))
 const CookiePolicyPage = lazy(() => import('@/pages/CookiePolicyPage'))
@@ -34,6 +35,7 @@ function App() {
             <Route path="/chi-siamo" element={<AboutPage />} />
             <Route path="/processo" element={<ProcessPage />} />
             <Route path="/collaborazioni" element={<CollaborationsPage />} />
+            <Route path="/progetto" element={<ProjectPage />} />
             <Route path="/contatti" element={<ContactPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             <Route path="/cookie-policy" element={<CookiePolicyPage />} />

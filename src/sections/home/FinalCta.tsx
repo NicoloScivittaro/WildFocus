@@ -13,7 +13,7 @@ export function FinalCta() {
         </p>
         <div className="mt-6 flex flex-col items-center justify-center gap-3 md:flex-row">
           <Link
-            to="/contatti"
+            to={siteConfig.startProjectPath}
             className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-ink hover:opacity-90 focus-visible:outline-accent"
           >
             {siteConfig.primaryCta}
