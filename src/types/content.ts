@@ -21,6 +21,34 @@ export interface PackagePlan {
   priceLabel: 'Preventivo personalizzato'
 }
 
+export interface QuoteZone {
+  id: string
+  label: string
+  /** Coefficiente logistico/trasferta applicato al subtotale dei servizi. */
+  multiplier: number
+}
+
+export interface QuoteDiscountTier {
+  /** Numero minimo di servizi selezionati perché lo sconto si applichi. */
+  minServices: number
+  /** Sconto combinazione, espresso come frazione (0.12 = 12%). */
+  rate: number
+}
+
+export interface QuoteEstimate {
+  serviceCount: number
+  /** Somma dei listini generici dei servizi selezionati. */
+  subtotal: number
+  zoneMultiplier: number
+  /** Quota aggiunta (o rimossa) dal coefficiente di zona. */
+  zoneAdjustment: number
+  discountRate: number
+  discountAmount: number
+  total: number
+  /** Sconto raggiungibile aggiungendo un servizio, se esiste. */
+  nextTier: QuoteDiscountTier | null
+}
+
 export type ProjectCategory = 'video-editing' | 'fotografia' | 'social' | 'commercial' | 'eventi' | 'brand'
 
 export interface ProjectTestimonial {

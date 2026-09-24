@@ -17,10 +17,10 @@ export function ServicesSummary() {
           inverted
           eyebrow="Servizi"
           title="Cosa facciamo"
-          description="Quattro aree di lavoro, un solo obiettivo: contenuti che generano risultati."
+          description="Sei aree di lavoro, un solo obiettivo: contenuti che generano risultati."
         />
 
-        <Reveal className="mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-4">
+        <Reveal className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service) => (
             <ServiceSummaryCard key={service.slug} service={service} />
           ))}

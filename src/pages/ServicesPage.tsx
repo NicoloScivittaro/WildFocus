@@ -1,7 +1,7 @@
 import { SectionTitle } from '@/components/ui/SectionTitle'
 import { ServiceCard } from '@/components/ui/ServiceCard'
 import { PackageCard } from '@/components/ui/PackageCard'
-import { CTASection } from '@/components/ui/CTASection'
+import { QuoteEstimator } from '@/components/ui/QuoteEstimator'
 import { services } from '@/data/services'
 import { packages } from '@/data/packages'
 import { Seo } from '@/seo/Seo'
@@ -10,14 +10,14 @@ export default function ServicesPage() {
   return (
     <>
       <Seo
-        title="Servizi — WildFocus | Video editing, fotografia, contenuti social"
-        description="Video editing, fotografia e shooting, contenuti social, produzione per brand e aziende. Preventivo personalizzato per ogni progetto."
+        title="Servizi — WildFocus | Video, fotografia, contenuti social, sound design e musica"
+        description="Video editing, fotografia e shooting, contenuti social, produzione per brand e aziende, sound design e produzione musicale. Preventivo personalizzato per ogni progetto."
       />
       <div className="mx-auto max-w-6xl px-4 py-12">
         <SectionTitle
           eyebrow="Servizi"
           title="Le nostre aree di lavoro"
-          description="Quattro macro-servizi, ogni lavorazione pensata per un risultato concreto."
+          description="Sei macro-servizi, ogni lavorazione pensata per un risultato concreto."
         />
 
         <div className="mt-8 grid gap-6 md:grid-cols-2">
@@ -40,7 +40,7 @@ export default function ServicesPage() {
         </div>
 
         <div className="mt-16">
-          <CTASection title="Parliamo del tuo progetto" secondaryLabel="Scopri i nostri lavori" secondaryTo="/portfolio" />
+          <QuoteEstimator />
         </div>
       </div>
     </>

@@ -16,8 +16,13 @@ const budgetOptions: BudgetRange[] = [
 
 const contactPreferenceOptions: ContactPreference[] = ['Email', 'Telefono', 'WhatsApp']
 
-export function ContactForm() {
-  const { step, fields, updateField, goNext, goBack, isStepValid } = useContactFormState()
+interface ContactFormProps {
+  /** Slug del servizio da preselezionare, ad esempio dal preventivatore. */
+  initialService?: string
+}
+
+export function ContactForm({ initialService = '' }: ContactFormProps) {
+  const { step, fields, updateField, goNext, goBack, isStepValid } = useContactFormState(initialService)
   const formRenderedAt = useFormMountTime()
   const [honeypot, setHoneypot] = useState('')
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')

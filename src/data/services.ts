@@ -47,4 +47,48 @@ export const services: Service[] = [
     examples: ['Video di presentazione aziendale', 'Campagna per un lancio prodotto', 'Copertura video di un evento'],
     ctaLabel: 'Parliamo del tuo progetto',
   },
+  {
+    slug: 'sound-design',
+    title: 'Sound Design',
+    outcomeStatement:
+      'Diamo identità sonora ai tuoi contenuti attraverso effetti, atmosfere e dettagli audio progettati per rendere ogni scena più immersiva e riconoscibile.',
+    problemSolved:
+      'Hai un video, un prodotto o un progetto creativo che visivamente funziona, ma a cui manca un comparto sonoro capace di valorizzarlo davvero.',
+    includes: [
+      'Sound design creativo',
+      'Effetti sonori',
+      'Foley',
+      'Ambienti e atmosfere',
+      'Editing e pulizia audio',
+      'Mix e finalizzazione',
+    ],
+    examples: [
+      'Sound design per uno spot pubblicitario',
+      'Effetti e atmosfere per Reel e contenuti social',
+      'Identità sonora per un brand o un prodotto',
+    ],
+    ctaLabel: 'Parliamo del tuo progetto',
+  },
+  {
+    slug: 'produzione-musicale',
+    title: 'Produzione Musicale',
+    outcomeStatement:
+      "Trasformiamo un'idea musicale in una produzione completa, curata nel suono e costruita per avere un'identità precisa e professionale.",
+    problemSolved:
+      "Hai una melodia, un testo o un'idea in testa, ma ti manca la produzione necessaria per trasformarla in un brano finito e pronto per essere pubblicato.",
+    includes: [
+      'Produzione e arrangiamento',
+      'Beat making',
+      'Registrazione e vocal production',
+      'Editing vocale',
+      'Mix',
+      'Mastering',
+    ],
+    examples: [
+      'Produzione completa di un singolo',
+      'Beat originale per un artista',
+      'Musica originale per contenuti, brand o campagne',
+    ],
+    ctaLabel: 'Parliamo del tuo progetto',
+  },
 ]

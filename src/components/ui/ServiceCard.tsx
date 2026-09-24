@@ -33,7 +33,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
 
       <Link
         to={`/contatti?servizio=${service.slug}`}
-        className="mt-6 inline-block rounded-full border border-accent-deep px-4 py-2 text-center text-sm font-semibold text-accent-deep hover:bg-accent-deep hover:text-base"
+        className="mt-auto inline-block rounded-full border border-accent-deep px-4 py-2 text-center text-sm font-semibold text-accent-deep hover:bg-accent-deep hover:text-base"
       >
         {service.ctaLabel}
       </Link>

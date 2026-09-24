@@ -1,4 +1,4 @@
-import { Film, Camera, Share2, Building2 } from 'lucide-react'
+import { Film, Camera, Share2, Building2, Headphones, Music } from 'lucide-react'
 import type { Service } from '@/types/content'
 
 const serviceIcons: Record<string, typeof Film> = {
@@ -6,6 +6,8 @@ const serviceIcons: Record<string, typeof Film> = {
   'fotografia-shooting': Camera,
   'contenuti-social': Share2,
   'produzione-brand-aziende': Building2,
+  'sound-design': Headphones,
+  'produzione-musicale': Music,
 }
 
 interface ServiceSummaryCardProps {

@@ -1,7 +1,7 @@
 import { Hero } from '@/sections/home/Hero'
 import { PortfolioHighlight } from '@/sections/home/PortfolioHighlight'
 import { ServicesSummary } from '@/sections/home/ServicesSummary'
-import { SocialProof } from '@/sections/home/SocialProof'
+// import { SocialProof } from '@/sections/home/SocialProof'
 import { FinalCta } from '@/sections/home/FinalCta'
 import { Seo } from '@/seo/Seo'
 
@@ -16,7 +16,10 @@ export default function HomePage() {
         <Hero />
         <PortfolioHighlight />
         <ServicesSummary />
+        {/* Prova sociale — disattivata temporaneamente. Riattivare rimuovendo
+            questo commento e l'import di SocialProof qui sopra.
         <SocialProof />
+        */}
         <FinalCta />
       </div>
     </>

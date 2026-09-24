@@ -2,19 +2,34 @@ import { useSearchParams } from 'react-router-dom'
 import { SectionTitle } from '@/components/ui/SectionTitle'
 import { ContactForm } from '@/components/forms/ContactForm'
 import { siteConfig } from '@/data/siteConfig'
+import { services } from '@/data/services'
+import { quoteZones } from '@/data/quote'
 import { Seo } from '@/seo/Seo'
 
 const afterSubmitSteps = ['Richiesta', 'Risposta e call conoscitiva', 'Preventivo su misura', 'Avvio del progetto']
 
+function serviceTitleFromSlug(slug: string): string {
+  return services.find((service) => service.slug === slug)?.title ?? slug
+}
+
 export default function ContactPage() {
   const [searchParams] = useSearchParams()
   const preselectedService = searchParams.get('servizio')
+  const extraServices = searchParams.get('servizi')
+  const zoneParam = searchParams.get('zona')
+
+  const selectedSlugs = [
+    ...(preselectedService ? [preselectedService] : []),
+    ...(extraServices ? extraServices.split(',') : []),
+  ]
+  const uniqueSlugs = Array.from(new Set(selectedSlugs.filter((slug) => slug.trim().length > 0)))
+  const zone = quoteZones.find((item) => item.id === zoneParam)
 
   return (
     <>
       <Seo
         title="Contatti — WildFocus | Richiedi un preventivo"
-        description="Raccontaci il tuo progetto: video editing, fotografia, contenuti social o produzione per brand. Ti risponderemo con i prossimi passi."
+        description="Raccontaci il tuo progetto: video editing, fotografia, contenuti social, produzione per brand, sound design o produzione musicale. Ti risponderemo con i prossimi passi."
       />
       <div className="mx-auto grid max-w-5xl gap-10 px-4 py-12 md:grid-cols-[1.1fr,0.9fr]">
         <div>
@@ -24,10 +39,18 @@ export default function ContactPage() {
             description="Ti aiuteremo a trasformarlo in qualcosa che le persone vorranno guardare, ricordare e condividere."
           />
 
-          {preselectedService && (
-            <p className="mt-3 text-sm text-ink-muted">
-              Servizio selezionato: <span className="text-accent-deep">{preselectedService}</span>
-            </p>
+          {uniqueSlugs.length > 0 && (
+            <div className="mt-3 rounded-xl2 border border-ink/10 bg-surface px-4 py-3 text-sm text-ink-muted">
+              <p>
+                Servizi selezionati:{' '}
+                <span className="text-accent-deep">{uniqueSlugs.map(serviceTitleFromSlug).join(', ')}</span>
+              </p>
+              {zone && (
+                <p className="mt-1">
+                  Zona: <span className="text-accent-deep">{zone.label}</span>
+                </p>
+              )}
+            </div>
           )}
 
           <ol className="mt-8 space-y-3 text-sm text-ink-muted">
@@ -64,7 +87,7 @@ export default function ContactPage() {
           </div>
         </div>
 
-        <ContactForm />
+        <ContactForm initialService={preselectedService ?? ''} />
       </div>
     </>
   )
