@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { QuoteEstimator } from './QuoteEstimator'
-import { services } from '@/data/services'
+import { quotePackages } from '@/data/quote'
 
 function renderEstimator() {
   return render(
@@ -14,75 +14,86 @@ function renderEstimator() {
 }
 
 describe('QuoteEstimator', () => {
-  it('lists every service with a generic starting price', () => {
+  it('shows every package as a selectable option, grouped by category', () => {
     renderEstimator()
 
-    services.forEach((service) => {
-      expect(screen.getByRole('checkbox', { name: new RegExp(service.title, 'i') })).toBeInTheDocument()
-    })
+    expect(screen.getAllByRole('checkbox')).toHaveLength(quotePackages.length)
+    expect(screen.getByRole('group', { name: 'Reel' })).toBeInTheDocument()
+    expect(screen.getByRole('group', { name: 'Fotografia' })).toBeInTheDocument()
+    expect(screen.getByRole('group', { name: 'Matrimonio' })).toBeInTheDocument()
   })
 
-  it('starts from a single service, with no combination discount', () => {
+  it('shows the reel per-unit prices', () => {
     renderEstimator()
 
-    expect(screen.getByText(/Servizi selezionati \(1\)/)).toBeInTheDocument()
-    expect(screen.queryByText(/Sconto combinazione/)).not.toBeInTheDocument()
+    expect(screen.getByText('62,50 €/reel')).toBeInTheDocument()
+    expect(screen.getByText('57,50 €/reel')).toBeInTheDocument()
+    expect(screen.getByText('50 €/reel')).toBeInTheDocument()
   })
 
-  it('adds a larger discount as soon as a second service is selected', async () => {
+  it('starts with no payable total and a disabled call to action', () => {
+    renderEstimator()
+
+    expect(screen.getByText(/seleziona almeno un pacchetto/i)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /richiedi il preventivo/i })).toBeDisabled()
+  })
+
+  it('totals the selected packages plus one fixed transfer', async () => {
     const user = userEvent.setup()
     renderEstimator()
 
-    await user.click(screen.getByRole('checkbox', { name: /sound design/i }))
+    await user.click(screen.getByRole('checkbox', { name: /1 Reel/ }))
+    await user.click(screen.getByRole('checkbox', { name: /MINI SHOOTING/ }))
+    await user.click(screen.getByRole('radio', { name: /Fino a 50 km/ }))
 
-    expect(screen.getByText(/Servizi selezionati \(2\)/)).toBeInTheDocument()
-    expect(screen.getByText(/Sconto combinazione/)).toBeInTheDocument()
+    expect(screen.getByText(/210\s*€/)).toBeInTheDocument()
+    expect(screen.getByText(/50 km di distanza — 100 km totali andata e ritorno/i)).toBeInTheDocument()
   })
 
-  it('grows the discount again when a third service is added', async () => {
+  it('applies the transfer once even when several packages are selected', async () => {
     const user = userEvent.setup()
     renderEstimator()
 
-    const discountText = () => screen.getByText(/Sconto combinazione/).parentElement?.textContent ?? ''
+    await user.click(screen.getByRole('checkbox', { name: /1 Reel/ }))
+    await user.click(screen.getByRole('checkbox', { name: /MINI SHOOTING/ }))
+    await user.click(screen.getByRole('checkbox', { name: /CERIMONIA/ }))
+    await user.click(screen.getByRole('radio', { name: /Roma centro/ }))
 
-    await user.click(screen.getByRole('checkbox', { name: /sound design/i }))
-    expect(discountText()).toContain('8%')
-
-    await user.click(screen.getByRole('checkbox', { name: /produzione musicale/i }))
-
-    expect(screen.getByText(/Servizi selezionati \(3\)/)).toBeInTheDocument()
-    expect(discountText()).toContain('12%')
-    expect(discountText()).not.toContain('8%')
+    // 70 + 90 + 450 + 40, with the transfer charged a single time.
+    expect(screen.getByText(/650\s*€/)).toBeInTheDocument()
   })
 
-  it('lets the user choose where in Italy the project happens', async () => {
+  it('never shows combination discounts or percentage zone uplifts', async () => {
     const user = userEvent.setup()
     renderEstimator()
 
-    expect(screen.getByText(/Nessun adeguamento per trasferta/i)).toBeInTheDocument()
+    await user.click(screen.getByRole('checkbox', { name: /1 Reel/ }))
+    await user.click(screen.getByRole('checkbox', { name: /MINI SHOOTING/ }))
 
-    await user.selectOptions(screen.getByLabelText(/Dove si svolge il progetto/i), 'sud-isole')
-
-    expect(screen.getByText(/Trasferta e logistica/i)).toBeInTheDocument()
+    expect(screen.queryByText(/sconto combinazione/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/adeguamento zona/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/trasferta e logistica/i)).not.toBeInTheDocument()
   })
 
-  it('sends the chosen services and zone to the contact page', async () => {
+  it('sends package ids, transfer and total to the contact page', async () => {
     const user = userEvent.setup()
     renderEstimator()
 
-    await user.click(screen.getByRole('checkbox', { name: /sound design/i }))
-    await user.selectOptions(screen.getByLabelText(/Dove si svolge il progetto/i), 'centro')
+    await user.click(screen.getByRole('checkbox', { name: /4 Reel/ }))
+    await user.click(screen.getByRole('checkbox', { name: /MINI SHOOTING/ }))
+    await user.click(screen.getByRole('radio', { name: /Fino a 20 km/ }))
 
-    const href = screen.getByRole('link', { name: /richiedi il preventivo su misura/i }).getAttribute('href') ?? ''
+    const href = screen.getByRole('link', { name: /richiedi il preventivo/i }).getAttribute('href') ?? ''
 
+    expect(href).toContain('pacchetti=reel-4%2Cmini-shooting')
+    expect(href).toContain('trasferimento=entro-20-km')
+    expect(href).toContain('totale=360')
     expect(href).toContain('servizio=video-editing')
-    expect(href).toContain('servizi=video-editing%2Csound-design')
-    expect(href).toContain('zona=centro')
   })
 
-  it('labels the figures as a generic, non-binding estimate', () => {
+  it('labels the prices as indicative and non-binding', () => {
     renderEstimator()
 
-    expect(screen.getByText(/Stima generica e non vincolante/i)).toBeInTheDocument()
+    expect(screen.getByText(/prezzi indicativi e non vincolanti/i)).toBeInTheDocument()
   })
 })

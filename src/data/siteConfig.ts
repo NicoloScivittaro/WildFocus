@@ -19,14 +19,15 @@ export const siteConfig = {
   secondaryCta: 'Richiedi un preventivo',
   city: '[CITTÀ]',
   responseTime: '[TEMPO REALE]',
-  email: '[EMAIL WILDFOCUS]',
+  email: 'Wildfocus.editing@gmail.com',
   whatsappNumber: '[NUMERO WHATSAPP]',
   whatsappLink: 'https://wa.me/[NUMERO WHATSAPP]',
   socials: [
-    { platform: 'Instagram', url: '[LINK INSTAGRAM]' },
-    { platform: 'TikTok', url: '[LINK TIKTOK]' },
-    { platform: 'YouTube', url: '[LINK YOUTUBE]' },
-    { platform: 'LinkedIn', url: '[LINK LINKEDIN]' },
+    {
+      platform: 'Instagram',
+      url: 'https://www.instagram.com/wildfocus.editing?stkn=MXQ4aDhhejZwN2VrMg%3D%3D&utm_source=qr',
+    },
+    { platform: 'TikTok', url: 'https://www.tiktok.com/@wildfocus.editing' },
   ],
   nav,
   trustStats: [
@@ -41,8 +42,11 @@ export const siteConfig = {
     description:
       'Video e contenuti visivi per aziende, creator e attività che vogliono aumentare attenzione, autorevolezza e conversioni.',
     areaServed: '[CITTÀ]',
-    email: '[EMAIL WILDFOCUS]',
-    sameAs: ['[LINK INSTAGRAM]', '[LINK TIKTOK]', '[LINK YOUTUBE]', '[LINK LINKEDIN]'],
+    email: 'Wildfocus.editing@gmail.com',
+    sameAs: [
+      'https://www.instagram.com/wildfocus.editing?stkn=MXQ4aDhhejZwN2VrMg%3D%3D&utm_source=qr',
+      'https://www.tiktok.com/@wildfocus.editing',
+    ],
   },
 } as const
 

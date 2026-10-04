@@ -21,32 +21,48 @@ export interface PackagePlan {
   priceLabel: 'Preventivo personalizzato'
 }
 
-export interface QuoteZone {
-  id: string
+export type QuoteCategoryId = 'reel' | 'fotografia' | 'matrimonio'
+
+export interface QuoteCategory {
+  id: QuoteCategoryId
   label: string
-  /** Coefficiente logistico/trasferta applicato al subtotale dei servizi. */
-  multiplier: number
+  description: string
 }
 
-export interface QuoteDiscountTier {
-  /** Numero minimo di servizi selezionati perché lo sconto si applichi. */
-  minServices: number
-  /** Sconto combinazione, espresso come frazione (0.12 = 12%). */
-  rate: number
+export interface QuotePackage {
+  id: string
+  category: QuoteCategoryId
+  name: string
+  /** Prezzo del pacchetto, in euro. */
+  price: number
+  /** Nota sul prezzo unitario, ad esempio nei pacchetti multi-reel. */
+  priceNote?: string
+  features: string[]
+}
+
+export interface QuoteTransferOption {
+  id: string
+  label: string
+  /** Distanza percorsa e andata/ritorno, spiegati in modo esplicito. */
+  description: string
+  /** Costo fisso del trasferimento, applicato una sola volta. */
+  price: number
+}
+
+export interface QuoteSelectionLine {
+  id: string
+  name: string
+  price: number
 }
 
 export interface QuoteEstimate {
-  serviceCount: number
-  /** Somma dei listini generici dei servizi selezionati. */
+  packages: QuoteSelectionLine[]
+  packageCount: number
+  /** Somma dei prezzi dei pacchetti selezionati. */
   subtotal: number
-  zoneMultiplier: number
-  /** Quota aggiunta (o rimossa) dal coefficiente di zona. */
-  zoneAdjustment: number
-  discountRate: number
-  discountAmount: number
+  transfer: QuoteTransferOption | null
+  transferPrice: number
   total: number
-  /** Sconto raggiungibile aggiungendo un servizio, se esiste. */
-  nextTier: QuoteDiscountTier | null
 }
 
 export type ProjectCategory = 'video-editing' | 'fotografia' | 'social' | 'commercial' | 'eventi' | 'brand'

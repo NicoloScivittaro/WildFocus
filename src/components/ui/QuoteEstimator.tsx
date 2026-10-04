@@ -1,8 +1,13 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { SectionTitle } from '@/components/ui/SectionTitle'
-import { services } from '@/data/services'
-import { estimateQuote, quoteServiceRates, quoteZones } from '@/data/quote'
+import {
+  estimateQuote,
+  quoteCategories,
+  quotePackagesByCategory,
+  quoteServiceSlug,
+  quoteTransfers,
+} from '@/data/quote'
 
 const currency = new Intl.NumberFormat('it-IT', {
   style: 'currency',
@@ -10,128 +15,145 @@ const currency = new Intl.NumberFormat('it-IT', {
   maximumFractionDigits: 0,
 })
 
-const percent = new Intl.NumberFormat('it-IT', {
-  style: 'percent',
-  maximumFractionDigits: 0,
-})
-
 /**
- * Preventivatore indicativo: l'utente sceglie uno o più servizi e la zona in
- * Italia, e vede subito una stima generica con lo sconto che cresce al
- * crescere dei servizi combinati. I numeri sono placeholder: il preventivo
- * vero resta su misura.
+ * Preventivatore a pacchetti: l'utente sceglie i pacchetti concreti e il
+ * trasferimento. Il totale è la somma dei pacchetti più il trasferimento
+ * fisso, applicato una sola volta e valido per andata e ritorno.
  */
 export function QuoteEstimator() {
-  const [selected, setSelected] = useState<string[]>([services[0].slug])
-  const [zoneId, setZoneId] = useState(quoteZones[0].id)
+  const [selectedPackages, setSelectedPackages] = useState<string[]>([])
+  const [transferId, setTransferId] = useState(quoteTransfers[0].id)
 
-  const estimate = useMemo(() => estimateQuote(selected, zoneId), [selected, zoneId])
-  const zone = quoteZones.find((item) => item.id === zoneId) ?? quoteZones[0]
+  const estimate = useMemo(() => estimateQuote(selectedPackages, transferId), [selectedPackages, transferId])
 
-  function toggleService(slug: string) {
-    setSelected((prev) => (prev.includes(slug) ? prev.filter((item) => item !== slug) : [...prev, slug]))
+  function togglePackage(packageId: string) {
+    setSelectedPackages((prev) =>
+      prev.includes(packageId) ? prev.filter((item) => item !== packageId) : [...prev, packageId],
+    )
   }
 
+  const hasSelection = estimate.packageCount > 0
+
   const contactParams = new URLSearchParams()
-  if (selected.length > 0) contactParams.set('servizio', selected[0])
-  if (selected.length > 1) contactParams.set('servizi', selected.join(','))
-  contactParams.set('zona', zoneId)
+  if (hasSelection) {
+    contactParams.set('pacchetti', selectedPackages.join(','))
+    contactParams.set('trasferimento', transferId)
+    contactParams.set('totale', String(estimate.total))
+    const serviceSlug = quoteServiceSlug(selectedPackages)
+    if (serviceSlug) contactParams.set('servizio', serviceSlug)
+  }
+  const contactHref = `/contatti?${contactParams.toString()}`
 
   return (
     <section className="rounded-xl2 border border-ink/10 bg-surface px-6 py-10 md:px-10 md:py-12">
       <SectionTitle
         eyebrow="Preventivo"
         title="Calcola un preventivo indicativo"
-        description="Scegli uno o più servizi e dove si svolge il progetto: vedi subito una stima generica. Più servizi combini, più alta è la percentuale di sconto."
+        description="Scegli i pacchetti e il trasferimento: vedi subito il totale, senza sconti automatici né maggiorazioni percentuali."
       />
 
       <div className="mt-8 grid gap-6 md:grid-cols-[1.15fr,0.85fr]">
         <div>
-          <fieldset>
-            <legend className="text-sm font-semibold text-ink">Cosa devi fare</legend>
-            <p className="mt-1 text-xs text-ink-muted">Puoi selezionare più di un servizio.</p>
+          {quoteCategories.map((category) => (
+            <fieldset key={category.id} className="mt-8 first:mt-0">
+              <legend className="font-display text-lg text-ink">{category.label}</legend>
+              <p className="mt-1 text-xs text-ink-muted">{category.description}</p>
 
-            <div className="mt-4 grid gap-2">
-              {services.map((service) => {
-                const rate = quoteServiceRates[service.slug]
-                const checked = selected.includes(service.slug)
+              <div className="mt-3 grid gap-2">
+                {quotePackagesByCategory(category.id).map((pkg) => {
+                  const checked = selectedPackages.includes(pkg.id)
+                  return (
+                    <label
+                      key={pkg.id}
+                      className={`flex cursor-pointer items-start gap-3 rounded-lg border px-4 py-3 transition-colors ${
+                        checked ? 'border-accent-deep bg-base' : 'border-ink/10 bg-base hover:border-accent-deep/40'
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={checked}
+                        onChange={() => togglePackage(pkg.id)}
+                        className="mt-1"
+                      />
+                      <span className="flex-1">
+                        <span className="flex items-baseline justify-between gap-3">
+                          <span className="text-sm font-semibold text-ink">{pkg.name}</span>
+                          <span className="shrink-0 text-sm text-accent-deep">{currency.format(pkg.price)}</span>
+                        </span>
+                        {pkg.priceNote && <span className="mt-0.5 block text-xs text-ink-muted">{pkg.priceNote}</span>}
+                        {pkg.features.length > 0 && (
+                          <ul className="mt-1 space-y-0.5 text-xs text-ink-muted">
+                            {pkg.features.map((feature) => (
+                              <li key={feature}>· {feature}</li>
+                            ))}
+                          </ul>
+                        )}
+                      </span>
+                    </label>
+                  )
+                })}
+              </div>
+            </fieldset>
+          ))}
+
+          <fieldset className="mt-8">
+            <legend className="text-sm font-semibold text-ink">Trasferimento</legend>
+            <p className="mt-1 text-xs text-ink-muted">
+              Costo fisso per andata e ritorno, applicato una sola volta al totale.
+            </p>
+
+            <div className="mt-3 grid gap-2">
+              {quoteTransfers.map((option) => {
+                const checked = transferId === option.id
                 return (
                   <label
-                    key={service.slug}
+                    key={option.id}
                     className={`flex cursor-pointer items-start gap-3 rounded-lg border px-4 py-3 transition-colors ${
                       checked ? 'border-accent-deep bg-base' : 'border-ink/10 bg-base hover:border-accent-deep/40'
                     }`}
                   >
                     <input
-                      type="checkbox"
+                      type="radio"
+                      name="quote-transfer"
                       checked={checked}
-                      onChange={() => toggleService(service.slug)}
+                      onChange={() => setTransferId(option.id)}
                       className="mt-1"
                     />
                     <span className="flex-1">
-                      <span className="block text-sm font-semibold text-ink">{service.title}</span>
-                      {rate !== undefined && (
-                        <span className="block text-xs text-ink-muted">a partire da {currency.format(rate)}</span>
-                      )}
+                      <span className="flex items-baseline justify-between gap-3">
+                        <span className="text-sm font-semibold text-ink">{option.label}</span>
+                        <span className="shrink-0 text-sm text-accent-deep">
+                          {option.price === 0 ? 'Incluso' : currency.format(option.price)}
+                        </span>
+                      </span>
+                      <span className="mt-0.5 block text-xs text-ink-muted">{option.description}</span>
                     </span>
                   </label>
                 )
               })}
             </div>
           </fieldset>
-
-          <div className="mt-6">
-            <label htmlFor="quote-zone" className="block text-sm font-semibold text-ink">
-              Dove si svolge il progetto
-            </label>
-            <select
-              id="quote-zone"
-              value={zoneId}
-              onChange={(event) => setZoneId(event.target.value)}
-              className="mt-2 w-full rounded-lg border border-ink/10 bg-base px-3 py-2 text-ink"
-            >
-              {quoteZones.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
-            <p className="mt-1 text-xs text-ink-muted">
-              {zone.multiplier === 1
-                ? 'Nessun adeguamento per trasferta e logistica.'
-                : `Trasferta e logistica: +${percent.format(zone.multiplier - 1)}.`}
-            </p>
-          </div>
         </div>
 
         <div className="flex flex-col rounded-xl2 border border-ink/10 bg-base p-6">
-          <h3 className="font-display text-lg text-ink">Riepilogo indicativo</h3>
+          <h3 className="font-display text-lg text-ink">Riepilogo</h3>
 
-          {estimate.serviceCount === 0 ? (
-            <p className="mt-3 text-sm text-ink-muted">Seleziona almeno un servizio per vedere una stima.</p>
+          {!hasSelection ? (
+            <p className="mt-3 text-sm text-ink-muted">Seleziona almeno un pacchetto per vedere il totale.</p>
           ) : (
             <>
               <dl className="mt-4 space-y-2 text-sm">
-                <div className="flex items-baseline justify-between gap-4">
-                  <dt className="text-ink-muted">
-                    Servizi selezionati ({estimate.serviceCount})
-                  </dt>
-                  <dd className="text-ink">{currency.format(estimate.subtotal)}</dd>
-                </div>
-
-                {estimate.zoneAdjustment !== 0 && (
-                  <div className="flex items-baseline justify-between gap-4">
-                    <dt className="text-ink-muted">Adeguamento zona — {zone.label}</dt>
-                    <dd className="text-ink">+{currency.format(estimate.zoneAdjustment)}</dd>
+                {estimate.packages.map((line) => (
+                  <div key={line.id} className="flex items-baseline justify-between gap-4">
+                    <dt className="text-ink-muted">{line.name}</dt>
+                    <dd className="text-ink">{currency.format(line.price)}</dd>
                   </div>
-                )}
+                ))}
 
-                {estimate.discountRate > 0 && (
+                {estimate.transfer && estimate.transferPrice > 0 && (
                   <div className="flex items-baseline justify-between gap-4">
-                    <dt className="text-accent-deep">Sconto combinazione</dt>
-                    <dd className="text-accent-deep">
-                      −{currency.format(estimate.discountAmount)} (−{percent.format(estimate.discountRate)})
-                    </dd>
+                    <dt className="text-ink-muted">Trasferimento — {estimate.transfer.label}</dt>
+                    <dd className="text-ink">{currency.format(estimate.transferPrice)}</dd>
                   </div>
                 )}
               </dl>
@@ -139,28 +161,33 @@ export function QuoteEstimator() {
               <div className="mt-4 border-t border-ink/10 pt-4">
                 <p className="text-xs uppercase tracking-wide text-ink-muted">Totale indicativo</p>
                 <p className="mt-1 font-display text-3xl text-accent-deep">{currency.format(estimate.total)}</p>
-                <p className="mt-1 text-xs text-ink-muted">a partire da, IVA esclusa</p>
+                <p className="mt-1 text-xs text-ink-muted">IVA esclusa</p>
               </div>
-
-              {estimate.nextTier && (
-                <p className="mt-4 rounded-lg bg-accent/20 px-3 py-2 text-xs text-ink">
-                  Aggiungi un servizio e lo sconto sale al {percent.format(estimate.nextTier.rate)}.
-                </p>
-              )}
             </>
           )}
 
           <p className="mt-4 text-xs text-ink-muted">
-            Stima generica e non vincolante: prezzi indicativi che non tengono conto di durata, complessità e numero di
-            revisioni. Il preventivo definitivo viene sempre definito su misura.
+            Prezzi indicativi e non vincolanti: il preventivo definitivo viene confermato dopo il brief. I servizi su
+            misura restano disponibili su richiesta.
           </p>
 
-          <Link
-            to={`/contatti?${contactParams.toString()}`}
-            className="mt-6 block rounded-full bg-accent px-6 py-3 text-center text-sm font-semibold text-ink hover:opacity-90"
-          >
-            Richiedi il preventivo su misura
-          </Link>
+          {hasSelection ? (
+            <Link
+              to={contactHref}
+              className="mt-6 block rounded-full bg-accent px-6 py-3 text-center text-sm font-semibold text-ink hover:opacity-90"
+            >
+              Richiedi il preventivo su misura
+            </Link>
+          ) : (
+            <button
+              type="button"
+              disabled
+              aria-disabled="true"
+              className="mt-6 block w-full cursor-not-allowed rounded-full bg-accent px-6 py-3 text-center text-sm font-semibold text-ink opacity-40"
+            >
+              Richiedi il preventivo su misura
+            </button>
+          )}
         </div>
       </div>
     </section>

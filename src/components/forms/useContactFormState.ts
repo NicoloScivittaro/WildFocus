@@ -27,9 +27,9 @@ export function isStepValid(step: ContactFormStep, fields: ContactFormFields): b
   return fields.privacyAccepted
 }
 
-export function useContactFormState(initialService = '') {
+export function useContactFormState(initialFieldsOverride: Partial<ContactFormFields> = {}) {
   const [step, setStep] = useState<ContactFormStep>(1)
-  const [fields, setFields] = useState<ContactFormFields>({ ...initialFields, service: initialService })
+  const [fields, setFields] = useState<ContactFormFields>({ ...initialFields, ...initialFieldsOverride })
 
   function updateField<K extends keyof ContactFormFields>(key: K, value: ContactFormFields[K]) {
     setFields((prev) => ({ ...prev, [key]: value }))

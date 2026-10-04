@@ -19,10 +19,15 @@ const contactPreferenceOptions: ContactPreference[] = ['Email', 'Telefono', 'Wha
 interface ContactFormProps {
   /** Slug del servizio da preselezionare, ad esempio dal preventivatore. */
   initialService?: string
+  /** Riepilogo del preventivo da precompilare nella descrizione del progetto. */
+  initialDescription?: string
 }
 
-export function ContactForm({ initialService = '' }: ContactFormProps) {
-  const { step, fields, updateField, goNext, goBack, isStepValid } = useContactFormState(initialService)
+export function ContactForm({ initialService = '', initialDescription = '' }: ContactFormProps) {
+  const { step, fields, updateField, goNext, goBack, isStepValid } = useContactFormState({
+    service: initialService,
+    projectDescription: initialDescription,
+  })
   const formRenderedAt = useFormMountTime()
   const [honeypot, setHoneypot] = useState('')
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')

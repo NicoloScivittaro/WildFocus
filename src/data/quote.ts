@@ -1,67 +1,281 @@
-import type { QuoteDiscountTier, QuoteEstimate, QuoteZone } from '@/types/content'
+import type {
+  QuoteCategory,
+  QuoteCategoryId,
+  QuoteEstimate,
+  QuotePackage,
+  QuoteTransferOption,
+} from '@/types/content'
 
 /**
- * Listini generici e puramente indicativi, espressi come "a partire da".
- * Servono solo a dare un ordine di grandezza nel preventivatore: il prezzo
- * reale viene sempre definito su misura dopo la call conoscitiva.
+ * Listino reale del preventivatore. I prezzi sono quelli pubblicati da
+ * WildFocus: nessuno sconto automatico e nessun adeguamento percentuale.
+ * Il totale è sempre "pacchetti scelti + trasferimento fisso".
  */
-export const quoteServiceRates: Record<string, number> = {
-  'video-editing': 800,
-  'fotografia-shooting': 500,
-  'contenuti-social': 600,
-  'produzione-brand-aziende': 1500,
-  'sound-design': 700,
-  'produzione-musicale': 900,
-}
-
-/** Coefficienti di zona: coprono trasferte, logistica e giorni fuori sede. */
-export const quoteZones: QuoteZone[] = [
-  { id: 'nord', label: 'Nord Italia', multiplier: 1 },
-  { id: 'centro', label: 'Centro Italia', multiplier: 1.1 },
-  { id: 'sud-isole', label: 'Sud e Isole', multiplier: 1.25 },
+export const quoteCategories: QuoteCategory[] = [
+  {
+    id: 'reel',
+    label: 'Reel',
+    description: 'Video brevi verticali, montati e pronti da pubblicare.',
+  },
+  {
+    id: 'fotografia',
+    label: 'Fotografia',
+    description: 'Shooting, eventi e contenuti fotografici per i social.',
+  },
+  {
+    id: 'matrimonio',
+    label: 'Matrimonio',
+    description: 'Copertura fotografica del giorno del matrimonio.',
+  },
 ]
 
-/** Più servizi si combinano, più alta è la fascia di sconto. */
-export const quoteDiscountTiers: QuoteDiscountTier[] = [
-  { minServices: 2, rate: 0.08 },
-  { minServices: 3, rate: 0.12 },
-  { minServices: 4, rate: 0.16 },
-  { minServices: 5, rate: 0.18 },
-  { minServices: 6, rate: 0.2 },
+export const quotePackages: QuotePackage[] = [
+  // Reel
+  {
+    id: 'reel-1',
+    category: 'reel',
+    name: '1 Reel',
+    price: 70,
+    features: [],
+  },
+  {
+    id: 'reel-4',
+    category: 'reel',
+    name: '4 Reel',
+    price: 250,
+    priceNote: '62,50 €/reel',
+    features: [],
+  },
+  {
+    id: 'reel-8',
+    category: 'reel',
+    name: '8 Reel',
+    price: 460,
+    priceNote: '57,50 €/reel',
+    features: [],
+  },
+  {
+    id: 'reel-12',
+    category: 'reel',
+    name: '12 Reel',
+    price: 600,
+    priceNote: '50 €/reel',
+    features: [],
+  },
+
+  // Fotografia
+  {
+    id: 'mini-shooting',
+    category: 'fotografia',
+    name: 'MINI SHOOTING',
+    price: 90,
+    features: ['Fino a 1 ora di shooting', 'Selezione e post-produzione', 'Consegna digitale'],
+  },
+  {
+    id: 'shooting-standard',
+    category: 'fotografia',
+    name: 'SHOOTING STANDARD',
+    price: 150,
+    features: ['Fino a 2 ore di shooting', 'Selezione e post-produzione', 'Consegna digitale'],
+  },
+  {
+    id: 'shooting-pro',
+    category: 'fotografia',
+    name: 'SHOOTING PRO',
+    price: 220,
+    features: ['Fino a 3 ore di shooting', 'Selezione e post-produzione avanzata', 'Consegna digitale'],
+  },
+  {
+    id: 'evento',
+    category: 'fotografia',
+    name: 'EVENTO',
+    price: 150,
+    features: [
+      'Fino a 2 ore di copertura',
+      "Scatti durante l'evento",
+      'Selezione e post-produzione',
+      'Consegna digitale',
+    ],
+  },
+  {
+    id: 'evento-plus',
+    category: 'fotografia',
+    name: 'EVENTO PLUS',
+    price: 250,
+    features: [
+      'Fino a 4 ore di copertura',
+      "Scatti durante l'evento",
+      'Selezione e post-produzione',
+      'Consegna digitale',
+    ],
+  },
+  {
+    id: 'evento-completo',
+    category: 'fotografia',
+    name: 'EVENTO COMPLETO',
+    price: 350,
+    features: [
+      'Fino a 6 ore di copertura',
+      'Copertura fotografica completa',
+      'Selezione e post-produzione',
+      'Consegna digitale',
+    ],
+  },
+  {
+    id: 'social-photo',
+    category: 'fotografia',
+    name: 'SOCIAL PHOTO',
+    price: 120,
+    features: [
+      '1 ora di shooting',
+      '30 foto selezionate e post-prodotte',
+      'Contenuti pensati per i social',
+      'Consegna digitale',
+    ],
+  },
+
+  // Matrimonio
+  {
+    id: 'cerimonia',
+    category: 'matrimonio',
+    name: 'CERIMONIA',
+    price: 450,
+    features: [
+      'Fino a 3 ore di copertura',
+      'Preparazione degli sposi',
+      'Cerimonia',
+      'Foto di coppia e famiglia',
+      'Selezione completa delle migliori immagini',
+      'Post-produzione',
+      'Consegna digitale',
+    ],
+  },
+  {
+    id: 'wedding',
+    category: 'matrimonio',
+    name: 'WEDDING',
+    price: 750,
+    features: [
+      'Fino a 6 ore di copertura',
+      'Preparazione degli sposi',
+      'Cerimonia',
+      'Foto di coppia e famiglia',
+      'Ricevimento',
+      'Selezione completa delle migliori immagini',
+      'Post-produzione',
+      'Consegna digitale',
+    ],
+  },
+  {
+    id: 'wedding-full-day',
+    category: 'matrimonio',
+    name: 'WEDDING FULL DAY',
+    price: 1200,
+    features: [
+      'Fino a 10 ore di copertura',
+      'Preparazione degli sposi',
+      'Cerimonia',
+      'Foto di coppia e famiglia',
+      'Ricevimento e festa',
+      'Selezione completa delle migliori immagini',
+      'Post-produzione avanzata',
+      'Consegna digitale',
+    ],
+  },
 ]
 
-export function discountRateFor(serviceCount: number): number {
-  return quoteDiscountTiers.reduce((rate, tier) => (serviceCount >= tier.minServices ? tier.rate : rate), 0)
+/**
+ * Trasferimenti fissi. Il costo copre andata e ritorno, quindi si applica una
+ * sola volta all'intero preventivo, non per ogni pacchetto selezionato.
+ */
+export const quoteTransfers: QuoteTransferOption[] = [
+  {
+    id: 'nessuno',
+    label: 'Nessun trasferimento',
+    description: 'Ci occupiamo del progetto senza spostamenti da coprire.',
+    price: 0,
+  },
+  {
+    id: 'entro-20-km',
+    label: 'Fino a 20 km',
+    description: '20 km di distanza — 40 km totali andata e ritorno.',
+    price: 20,
+  },
+  {
+    id: 'entro-30-km',
+    label: 'Fino a 30 km',
+    description: '30 km di distanza — 60 km totali andata e ritorno.',
+    price: 30,
+  },
+  {
+    id: 'entro-50-km',
+    label: 'Fino a 50 km',
+    description: '50 km di distanza — 100 km totali andata e ritorno.',
+    price: 50,
+  },
+  {
+    id: 'roma-centro',
+    label: 'Roma centro',
+    description: 'Circa 40 km di distanza — 80 km totali andata e ritorno.',
+    price: 40,
+  },
+]
+
+/** Servizio del form contatti a cui corrisponde un pacchetto. */
+const packageServiceSlug: Record<QuoteCategoryId, string> = {
+  reel: 'video-editing',
+  fotografia: 'fotografia-shooting',
+  matrimonio: 'fotografia-shooting',
 }
 
-export function nextTierFor(serviceCount: number): QuoteDiscountTier | null {
-  return quoteDiscountTiers.find((tier) => tier.minServices > serviceCount) ?? null
+export function findQuotePackage(packageId: string): QuotePackage | undefined {
+  return quotePackages.find((item) => item.id === packageId)
 }
 
-export function findQuoteZone(zoneId: string): QuoteZone {
-  return quoteZones.find((zone) => zone.id === zoneId) ?? quoteZones[0]
+export function findQuoteTransfer(transferId: string | null | undefined): QuoteTransferOption {
+  return quoteTransfers.find((item) => item.id === transferId) ?? quoteTransfers[0]
+}
+
+export function quotePackagesByCategory(categoryId: QuoteCategoryId): QuotePackage[] {
+  return quotePackages.filter((item) => item.category === categoryId)
 }
 
 /**
- * Stima indicativa a partire dai servizi scelti e dalla zona in Italia.
- * Non tiene conto di durata, complessità o numero di revisioni: quelli
- * entrano solo nel preventivo su misura.
+ * Servizio da preselezionare nel form contatti a partire dai pacchetti scelti.
+ * Restituisce uno slug reale di `services`, così il campo "Servizio richiesto"
+ * resta valido anche quando il preventivatore passa dal link.
  */
-export function estimateQuote(serviceSlugs: string[], zoneId: string): QuoteEstimate {
-  const zone = findQuoteZone(zoneId)
-  const subtotal = serviceSlugs.reduce((sum, slug) => sum + (quoteServiceRates[slug] ?? 0), 0)
-  const zoneAdjusted = subtotal * zone.multiplier
-  const discountRate = discountRateFor(serviceSlugs.length)
-  const discountAmount = zoneAdjusted * discountRate
+export function quoteServiceSlug(packageIds: string[]): string {
+  for (const packageId of packageIds) {
+    const item = findQuotePackage(packageId)
+    if (!item) continue
+    const slug = packageServiceSlug[item.category]
+    if (slug) return slug
+  }
+  return ''
+}
+
+/**
+ * Totale del preventivo: somma dei pacchetti selezionati più il trasferimento
+ * fisso, applicato una sola volta. Una selezione vuota restituisce un totale
+ * pari a zero, così l'interfaccia può disattivare la richiesta.
+ */
+export function estimateQuote(packageIds: string[], transferId: string | null | undefined): QuoteEstimate {
+  const packages = packageIds
+    .map((id) => findQuotePackage(id))
+    .filter((item): item is QuotePackage => item !== undefined)
+    .map((item) => ({ id: item.id, name: item.name, price: item.price }))
+
+  const subtotal = packages.reduce((sum, item) => sum + item.price, 0)
+  const transfer = findQuoteTransfer(transferId)
+  const transferPrice = packages.length > 0 ? transfer.price : 0
 
   return {
-    serviceCount: serviceSlugs.length,
+    packages,
+    packageCount: packages.length,
     subtotal,
-    zoneMultiplier: zone.multiplier,
-    zoneAdjustment: zoneAdjusted - subtotal,
-    discountRate,
-    discountAmount,
-    total: zoneAdjusted - discountAmount,
-    nextTier: nextTierFor(serviceSlugs.length),
+    transfer: packages.length > 0 ? transfer : null,
+    transferPrice,
+    total: subtotal + transferPrice,
   }
 }

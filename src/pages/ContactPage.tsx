@@ -2,34 +2,50 @@ import { useSearchParams } from 'react-router-dom'
 import { SectionTitle } from '@/components/ui/SectionTitle'
 import { ContactForm } from '@/components/forms/ContactForm'
 import { siteConfig } from '@/data/siteConfig'
-import { services } from '@/data/services'
-import { quoteZones } from '@/data/quote'
+import { estimateQuote, findQuoteTransfer, quoteServiceSlug } from '@/data/quote'
 import { Seo } from '@/seo/Seo'
 
 const afterSubmitSteps = ['Richiesta', 'Risposta e call conoscitiva', 'Preventivo su misura', 'Avvio del progetto']
 
-function serviceTitleFromSlug(slug: string): string {
-  return services.find((service) => service.slug === slug)?.title ?? slug
-}
+const currency = new Intl.NumberFormat('it-IT', {
+  style: 'currency',
+  currency: 'EUR',
+  maximumFractionDigits: 0,
+})
 
 export default function ContactPage() {
   const [searchParams] = useSearchParams()
-  const preselectedService = searchParams.get('servizio')
-  const extraServices = searchParams.get('servizi')
-  const zoneParam = searchParams.get('zona')
+  const preselectedService = searchParams.get('servizio') ?? ''
+  const packageIds = (searchParams.get('pacchetti') ?? '')
+    .split(',')
+    .map((id) => id.trim())
+    .filter((id) => id.length > 0)
+  const transferParam = searchParams.get('trasferimento')
 
-  const selectedSlugs = [
-    ...(preselectedService ? [preselectedService] : []),
-    ...(extraServices ? extraServices.split(',') : []),
-  ]
-  const uniqueSlugs = Array.from(new Set(selectedSlugs.filter((slug) => slug.trim().length > 0)))
-  const zone = quoteZones.find((item) => item.id === zoneParam)
+  const estimate = estimateQuote(packageIds, transferParam)
+  const hasPackages = estimate.packageCount > 0
+  const transfer = findQuoteTransfer(transferParam)
+  const total = estimate.total
+
+  const serviceForForm = hasPackages ? quoteServiceSlug(packageIds) || preselectedService : preselectedService
+
+  const selectionSummary = hasPackages
+    ? [
+        `Pacchetti: ${estimate.packages
+          .map((line) => `${line.name} (${currency.format(line.price)})`)
+          .join(', ')}`,
+        transfer.price > 0 ? `Trasferimento: ${transfer.label} (${currency.format(transfer.price)})` : null,
+        `Totale indicativo: ${currency.format(total)}`,
+      ]
+        .filter((part): part is string => part !== null)
+        .join(' · ')
+    : ''
 
   return (
     <>
       <Seo
         title="Contatti — WildFocus | Richiedi un preventivo"
-        description="Raccontaci il tuo progetto: video editing, fotografia, contenuti social, produzione per brand, sound design o produzione musicale. Ti risponderemo con i prossimi passi."
+        description="Raccontaci il tuo progetto: reel, fotografia, matrimonio o una richiesta su misura. Ti risponderemo con i prossimi passi."
       />
       <div className="mx-auto grid max-w-5xl gap-10 px-4 py-12 md:grid-cols-[1.1fr,0.9fr]">
         <div>
@@ -39,17 +55,26 @@ export default function ContactPage() {
             description="Ti aiuteremo a trasformarlo in qualcosa che le persone vorranno guardare, ricordare e condividere."
           />
 
-          {uniqueSlugs.length > 0 && (
+          {hasPackages && (
             <div className="mt-3 rounded-xl2 border border-ink/10 bg-surface px-4 py-3 text-sm text-ink-muted">
-              <p>
-                Servizi selezionati:{' '}
-                <span className="text-accent-deep">{uniqueSlugs.map(serviceTitleFromSlug).join(', ')}</span>
+              <p className="font-semibold text-ink">Pacchetti selezionati</p>
+              <ul className="mt-2 space-y-1">
+                {estimate.packages.map((line) => (
+                  <li key={line.id} className="flex items-baseline justify-between gap-4">
+                    <span>{line.name}</span>
+                    <span className="text-accent-deep">{currency.format(line.price)}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-2">
+                Trasferimento:{' '}
+                <span className="text-accent-deep">
+                  {transfer.price > 0 ? `${transfer.label} (${currency.format(transfer.price)})` : 'nessuno'}
+                </span>
               </p>
-              {zone && (
-                <p className="mt-1">
-                  Zona: <span className="text-accent-deep">{zone.label}</span>
-                </p>
-              )}
+              <p className="mt-1">
+                Totale indicativo: <span className="text-accent-deep">{currency.format(total)}</span>
+              </p>
             </div>
           )}
 
@@ -87,7 +112,7 @@ export default function ContactPage() {
           </div>
         </div>
 
-        <ContactForm initialService={preselectedService ?? ''} />
+        <ContactForm initialService={serviceForForm} initialDescription={selectionSummary} />
       </div>
     </>
   )

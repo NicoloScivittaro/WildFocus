@@ -39,6 +39,6 @@ describe('ServicesPage', () => {
     renderPage()
 
     expect(screen.getAllByText('Preventivo personalizzato')).toHaveLength(packages.length)
-    expect(screen.getByText(/Stima generica e non vincolante/i)).toBeInTheDocument()
+    expect(screen.getByText(/prezzi indicativi e non vincolanti/i)).toBeInTheDocument()
   })
 })

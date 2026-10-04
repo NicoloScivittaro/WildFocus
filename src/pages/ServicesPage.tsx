@@ -11,7 +11,7 @@ export default function ServicesPage() {
     <>
       <Seo
         title="Servizi — WildFocus | Video, fotografia, contenuti social, sound design e musica"
-        description="Video editing, fotografia e shooting, contenuti social, produzione per brand e aziende, sound design e produzione musicale. Preventivo personalizzato per ogni progetto."
+        description="Reel, fotografia e matrimonio con pacchetti e prezzi chiari, più servizi su misura con preventivo personalizzato."
       />
       <div className="mx-auto max-w-6xl px-4 py-12">
         <SectionTitle
@@ -30,7 +30,7 @@ export default function ServicesPage() {
           <SectionTitle
             eyebrow="Pacchetti"
             title="Come possiamo collaborare"
-            description="Ogni pacchetto viene definito su misura. Nessun prezzo standard: solo preventivi personalizzati."
+            description="Formule su misura per progetti che escono dai pacchetti con prezzo: più servizi, continuità o lavorazioni dedicate."
           />
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {packages.map((plan) => (

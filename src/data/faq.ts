@@ -32,6 +32,7 @@ export const faqItems: FaqItem[] = [
   },
   {
     question: 'Come viene calcolato il preventivo?',
-    answer: 'In base al servizio richiesto, alla quantità di contenuti, alle tempistiche e alla complessità della produzione. Ogni preventivo è personalizzato.',
+    answer:
+      'Nella pagina Servizi scegli i pacchetti: il totale è la somma dei pacchetti più il trasferimento fisso, quando serve. Per le lavorazioni fuori listino prepariamo un preventivo su misura.',
   },
 ]
