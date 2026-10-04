@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import ServicesPage from './ServicesPage'
@@ -39,6 +39,7 @@ describe('ServicesPage', () => {
     renderPage()
 
     expect(screen.getAllByText('Preventivo personalizzato')).toHaveLength(packages.length)
+    fireEvent.click(screen.getByRole('radio', { name: /Reel/ }))
     expect(screen.getByText(/prezzi indicativi e non vincolanti/i)).toBeInTheDocument()
   })
 })

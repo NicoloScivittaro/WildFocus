@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import type { QuoteCategoryId } from '@/types/content'
 import { SectionTitle } from '@/components/ui/SectionTitle'
 import {
   estimateQuote,
@@ -21,6 +22,7 @@ const currency = new Intl.NumberFormat('it-IT', {
  * fisso, applicato una sola volta e valido per andata e ritorno.
  */
 export function QuoteEstimator() {
+  const [categoryId, setCategoryId] = useState<QuoteCategoryId | null>(null)
   const [selectedPackages, setSelectedPackages] = useState<string[]>([])
   const [transferId, setTransferId] = useState(quoteTransfers[0].id)
 
@@ -49,14 +51,49 @@ export function QuoteEstimator() {
       <SectionTitle
         eyebrow="Preventivo"
         title="Calcola un preventivo indicativo"
-        description="Scegli i pacchetti e il trasferimento: vedi subito il totale, senza sconti automatici né maggiorazioni percentuali."
+        description="Inizia dalla categoria, scegli i pacchetti e aggiungi l’eventuale trasferta."
       />
 
-      <div className="mt-8 grid gap-6 md:grid-cols-[1.15fr,0.85fr]">
-        <div>
+      <fieldset className="mt-8">
+        <legend className="font-display text-lg text-ink">1. Scegli la categoria</legend>
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
           {quoteCategories.map((category) => (
+            <label
+              key={category.id}
+              className={`flex cursor-pointer items-start gap-3 rounded-lg border bg-base p-4 transition-colors ${
+                categoryId === category.id ? 'border-accent-deep' : 'border-ink/10 hover:border-accent-deep/40'
+              }`}
+            >
+              <input
+                type="radio"
+                name="quote-category"
+                value={category.id}
+                checked={categoryId === category.id}
+                onChange={() => {
+                  setCategoryId(category.id)
+                  setSelectedPackages([])
+                  setTransferId(quoteTransfers[0].id)
+                }}
+                className="mt-1 accent-accent-deep"
+              />
+              <span>
+                <span className="block font-semibold text-ink">{category.label}</span>
+                <span className="mt-1 block text-xs text-ink-muted">{category.description}</span>
+              </span>
+            </label>
+          ))}
+        </div>
+        <p className="mt-3 text-xs text-ink-muted">
+          Cambiando categoria inizi un nuovo preventivo.
+        </p>
+      </fieldset>
+
+      {categoryId !== null && (
+      <div className="mt-8 grid items-start gap-6 md:grid-cols-[1.15fr,0.85fr]">
+        <div>
+          {quoteCategories.filter((category) => category.id === categoryId).map((category) => (
             <fieldset key={category.id} className="mt-8 first:mt-0">
-              <legend className="font-display text-lg text-ink">{category.label}</legend>
+              <legend className="font-display text-lg text-ink">2. Scegli i pacchetti — {category.label}</legend>
               <p className="mt-1 text-xs text-ink-muted">{category.description}</p>
 
               <div className="mt-3 grid gap-2">
@@ -96,8 +133,9 @@ export function QuoteEstimator() {
             </fieldset>
           ))}
 
+          {hasSelection && (
           <fieldset className="mt-8">
-            <legend className="text-sm font-semibold text-ink">Trasferimento</legend>
+            <legend className="text-sm font-semibold text-ink">3. Scegli la trasferta</legend>
             <p className="mt-1 text-xs text-ink-muted">
               Costo fisso per andata e ritorno, applicato una sola volta al totale.
             </p>
@@ -133,6 +171,7 @@ export function QuoteEstimator() {
               })}
             </div>
           </fieldset>
+          )}
         </div>
 
         <div className="flex flex-col rounded-xl2 border border-ink/10 bg-base p-6">
@@ -190,6 +229,7 @@ export function QuoteEstimator() {
           )}
         </div>
       </div>
+      )}
     </section>
   )
 }

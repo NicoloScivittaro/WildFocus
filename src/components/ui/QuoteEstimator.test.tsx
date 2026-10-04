@@ -1,26 +1,47 @@
 import { describe, expect, it } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { QuoteEstimator } from './QuoteEstimator'
-import { quotePackages } from '@/data/quote'
 
-function renderEstimator() {
-  return render(
+function renderEstimator(category: string | null = 'Reel') {
+  const result = render(
     <MemoryRouter>
       <QuoteEstimator />
     </MemoryRouter>,
   )
+  if (category) fireEvent.click(screen.getByRole('radio', { name: new RegExp(category) }))
+  return result
 }
 
 describe('QuoteEstimator', () => {
-  it('shows every package as a selectable option, grouped by category', () => {
-    renderEstimator()
+  it('starts with only the three macrocategories', () => {
+    renderEstimator(null)
+    expect(screen.getAllByRole('radio')).toHaveLength(3)
+    expect(screen.queryByRole('checkbox')).not.toBeInTheDocument()
+    expect(screen.queryByText('Riepilogo')).not.toBeInTheDocument()
+    expect(screen.queryByRole('group', { name: /trasferta/i })).not.toBeInTheDocument()
+  })
 
-    expect(screen.getAllByRole('checkbox')).toHaveLength(quotePackages.length)
-    expect(screen.getByRole('group', { name: 'Reel' })).toBeInTheDocument()
-    expect(screen.getByRole('group', { name: 'Fotografia' })).toBeInTheDocument()
-    expect(screen.getByRole('group', { name: 'Matrimonio' })).toBeInTheDocument()
+  it('reveals only the chosen category and clears the previous quote when switching', async () => {
+    const user = userEvent.setup()
+    renderEstimator()
+    expect(screen.getAllByRole('checkbox')).toHaveLength(4)
+    expect(screen.queryByRole('checkbox', { name: /MINI SHOOTING/ })).not.toBeInTheDocument()
+    await user.click(screen.getByRole('checkbox', { name: /4 Reel/ }))
+    await user.click(screen.getByRole('radio', { name: /Roma centro/ }))
+    await user.click(screen.getByRole('radio', { name: /Fotografia/ }))
+    expect(screen.getAllByRole('checkbox')).toHaveLength(7)
+    expect(screen.queryByRole('checkbox', { name: /4 Reel/ })).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /richiedi il preventivo/i })).toBeDisabled()
+    expect(screen.queryByRole('radio', { name: /Roma centro/ })).not.toBeInTheDocument()
+    await user.click(screen.getByRole('checkbox', { name: /MINI SHOOTING/ }))
+    expect(screen.getByRole('radio', { name: /Nessun trasferimento/ })).toBeChecked()
+    expect(screen.getByRole('link', { name: /richiedi il preventivo/i })).toHaveAttribute(
+      'href', expect.stringContaining('totale=90'),
+    )
+    await user.click(screen.getByRole('radio', { name: /Matrimonio/ }))
+    expect(screen.getAllByRole('checkbox')).toHaveLength(3)
   })
 
   it('shows the reel per-unit prices', () => {
@@ -43,10 +64,10 @@ describe('QuoteEstimator', () => {
     renderEstimator()
 
     await user.click(screen.getByRole('checkbox', { name: /1 Reel/ }))
-    await user.click(screen.getByRole('checkbox', { name: /MINI SHOOTING/ }))
+    await user.click(screen.getByRole('checkbox', { name: /4 Reel/ }))
     await user.click(screen.getByRole('radio', { name: /Fino a 50 km/ }))
 
-    expect(screen.getByText(/210\s*€/)).toBeInTheDocument()
+    expect(screen.getByText(/370\s*€/)).toBeInTheDocument()
     expect(screen.getByText(/50 km di distanza — 100 km totali andata e ritorno/i)).toBeInTheDocument()
   })
 
@@ -55,12 +76,12 @@ describe('QuoteEstimator', () => {
     renderEstimator()
 
     await user.click(screen.getByRole('checkbox', { name: /1 Reel/ }))
-    await user.click(screen.getByRole('checkbox', { name: /MINI SHOOTING/ }))
-    await user.click(screen.getByRole('checkbox', { name: /CERIMONIA/ }))
+    await user.click(screen.getByRole('checkbox', { name: /4 Reel/ }))
+    await user.click(screen.getByRole('checkbox', { name: /8 Reel/ }))
     await user.click(screen.getByRole('radio', { name: /Roma centro/ }))
 
-    // 70 + 90 + 450 + 40, with the transfer charged a single time.
-    expect(screen.getByText(/650\s*€/)).toBeInTheDocument()
+    // 70 + 250 + 460 + 40, with the transfer charged a single time.
+    expect(screen.getByText(/820\s*€/)).toBeInTheDocument()
   })
 
   it('never shows combination discounts or percentage zone uplifts', async () => {
@@ -68,7 +89,7 @@ describe('QuoteEstimator', () => {
     renderEstimator()
 
     await user.click(screen.getByRole('checkbox', { name: /1 Reel/ }))
-    await user.click(screen.getByRole('checkbox', { name: /MINI SHOOTING/ }))
+    await user.click(screen.getByRole('checkbox', { name: /4 Reel/ }))
 
     expect(screen.queryByText(/sconto combinazione/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/adeguamento zona/i)).not.toBeInTheDocument()
@@ -80,14 +101,14 @@ describe('QuoteEstimator', () => {
     renderEstimator()
 
     await user.click(screen.getByRole('checkbox', { name: /4 Reel/ }))
-    await user.click(screen.getByRole('checkbox', { name: /MINI SHOOTING/ }))
+    await user.click(screen.getByRole('checkbox', { name: /1 Reel/ }))
     await user.click(screen.getByRole('radio', { name: /Fino a 20 km/ }))
 
     const href = screen.getByRole('link', { name: /richiedi il preventivo/i }).getAttribute('href') ?? ''
 
-    expect(href).toContain('pacchetti=reel-4%2Cmini-shooting')
+    expect(href).toContain('pacchetti=reel-4%2Creel-1')
     expect(href).toContain('trasferimento=entro-20-km')
-    expect(href).toContain('totale=360')
+    expect(href).toContain('totale=340')
     expect(href).toContain('servizio=video-editing')
   })
 
