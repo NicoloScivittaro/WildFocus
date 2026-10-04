@@ -214,10 +214,10 @@ export const quoteTransfers: QuoteTransferOption[] = [
     price: 50,
   },
   {
-    id: 'roma-centro',
-    label: 'Roma centro',
-    description: 'Circa 40 km di distanza — 80 km totali andata e ritorno.',
-    price: 40,
+    id: 'oltre-50-km',
+    label: '+ 50 km',
+    description: 'Oltre 50 km di distanza — prezzo da stipulare.',
+    price: 0,
   },
 ]
 

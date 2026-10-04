@@ -22,27 +22,32 @@ const currency = new Intl.NumberFormat('it-IT', {
  * fisso, applicato una sola volta e valido per andata e ritorno.
  */
 export function QuoteEstimator() {
-  const [categoryId, setCategoryId] = useState<QuoteCategoryId | null>(null)
   const [selectedPackages, setSelectedPackages] = useState<string[]>([])
   const [transferId, setTransferId] = useState(quoteTransfers[0].id)
 
   const estimate = useMemo(() => estimateQuote(selectedPackages, transferId), [selectedPackages, transferId])
 
-  function togglePackage(packageId: string) {
-    setSelectedPackages((prev) =>
-      prev.includes(packageId) ? prev.filter((item) => item !== packageId) : [...prev, packageId],
-    )
+  function selectPackage(packageId: string, categoryId: QuoteCategoryId) {
+    setSelectedPackages((prev) => {
+      // Rimuovi altri pacchetti della stessa categoria
+      const filtered = prev.filter((id) => {
+        const pkg = quotePackagesByCategory(categoryId).find((p) => p.id === id)
+        return !pkg
+      })
+      // Aggiungi il nuovo pacchetto se non era già selezionato, altrimenti rimuovilo
+      return filtered.includes(packageId) ? filtered.filter((id) => id !== packageId) : [...filtered, packageId]
+    })
   }
 
   const hasSelection = estimate.packageCount > 0
 
   const contactParams = new URLSearchParams()
   if (hasSelection) {
-    contactParams.set('pacchetti', selectedPackages.join(','))
-    contactParams.set('trasferimento', transferId)
-    contactParams.set('totale', String(estimate.total))
+    contactParams.set(‘pacchetti’, selectedPackages.join(‘,’))
+    contactParams.set(‘trasferimento’, transferId)
+    contactParams.set(‘totale’, String(estimate.total))
     const serviceSlug = quoteServiceSlug(selectedPackages)
-    if (serviceSlug) contactParams.set('servizio', serviceSlug)
+    if (serviceSlug) contactParams.set(‘servizio’, serviceSlug)
   }
   const contactHref = `/contatti?${contactParams.toString()}`
 
@@ -51,49 +56,14 @@ export function QuoteEstimator() {
       <SectionTitle
         eyebrow="Preventivo"
         title="Calcola un preventivo indicativo"
-        description="Inizia dalla categoria, scegli i pacchetti e aggiungi l’eventuale trasferta."
+        description="Scegli i pacchetti che ti servono da una o più categorie e aggiungi l’eventuale trasferta."
       />
 
-      <fieldset className="mt-8">
-        <legend className="font-display text-lg text-ink">1. Scegli la categoria</legend>
-        <div className="mt-4 grid gap-3 sm:grid-cols-3">
-          {quoteCategories.map((category) => (
-            <label
-              key={category.id}
-              className={`flex cursor-pointer items-start gap-3 rounded-lg border bg-base p-4 transition-colors ${
-                categoryId === category.id ? 'border-accent-deep' : 'border-ink/10 hover:border-accent-deep/40'
-              }`}
-            >
-              <input
-                type="radio"
-                name="quote-category"
-                value={category.id}
-                checked={categoryId === category.id}
-                onChange={() => {
-                  setCategoryId(category.id)
-                  setSelectedPackages([])
-                  setTransferId(quoteTransfers[0].id)
-                }}
-                className="mt-1 accent-accent-deep"
-              />
-              <span>
-                <span className="block font-semibold text-ink">{category.label}</span>
-                <span className="mt-1 block text-xs text-ink-muted">{category.description}</span>
-              </span>
-            </label>
-          ))}
-        </div>
-        <p className="mt-3 text-xs text-ink-muted">
-          Cambiando categoria inizi un nuovo preventivo.
-        </p>
-      </fieldset>
-
-      {categoryId !== null && (
       <div className="mt-8 grid items-start gap-6 md:grid-cols-[1.15fr,0.85fr]">
         <div>
-          {quoteCategories.filter((category) => category.id === categoryId).map((category) => (
+          {quoteCategories.map((category) => (
             <fieldset key={category.id} className="mt-8 first:mt-0">
-              <legend className="font-display text-lg text-ink">2. Scegli i pacchetti — {category.label}</legend>
+              <legend className="font-display text-lg text-ink">{category.label}</legend>
               <p className="mt-1 text-xs text-ink-muted">{category.description}</p>
 
               <div className="mt-3 grid gap-2">
@@ -103,13 +73,15 @@ export function QuoteEstimator() {
                     <label
                       key={pkg.id}
                       className={`flex cursor-pointer items-start gap-3 rounded-lg border px-4 py-3 transition-colors ${
-                        checked ? 'border-accent-deep bg-base' : 'border-ink/10 bg-base hover:border-accent-deep/40'
+                        checked ? ‘border-accent-deep bg-base’ : ‘border-ink/10 bg-base hover:border-accent-deep/40’
                       }`}
                     >
                       <input
-                        type="checkbox"
+                        type="radio"
+                        name={`quote-category-${category.id}`}
+                        value={pkg.id}
                         checked={checked}
-                        onChange={() => togglePackage(pkg.id)}
+                        onChange={() => selectPackage(pkg.id, category.id)}
                         className="mt-1"
                       />
                       <span className="flex-1">
@@ -135,7 +107,7 @@ export function QuoteEstimator() {
 
           {hasSelection && (
           <fieldset className="mt-8">
-            <legend className="text-sm font-semibold text-ink">3. Scegli la trasferta</legend>
+            <legend className="text-sm font-semibold text-ink">Trasferta</legend>
             <p className="mt-1 text-xs text-ink-muted">
               Costo fisso per andata e ritorno, applicato una sola volta al totale.
             </p>
