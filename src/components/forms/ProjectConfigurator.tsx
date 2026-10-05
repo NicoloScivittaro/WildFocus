@@ -203,7 +203,7 @@ export function ProjectConfigurator() {
               id="brief-deadline"
               value={brief.deadline}
               onChange={(event) => updateBrief('deadline', event.target.value)}
-              placeholder="e.g. mid-September, or whenever it's ready"
+              placeholder="es. metà settembre, oppure quando è pronto"
               className="mt-1 w-full rounded-lg border border-ink/10 bg-base px-3 py-2 text-ink"
             />
           </div>

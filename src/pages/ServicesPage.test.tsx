@@ -39,7 +39,7 @@ describe('ServicesPage', () => {
     renderPage()
 
     expect(screen.getAllByText('Preventivo personalizzato')).toHaveLength(packages.length)
-    fireEvent.click(screen.getByRole('radio', { name: /Reel/ }))
+    fireEvent.click(screen.getByRole('radio', { name: 'Video' }))
     expect(screen.getByText(/prezzi indicativi e non vincolanti/i)).toBeInTheDocument()
   })
 })

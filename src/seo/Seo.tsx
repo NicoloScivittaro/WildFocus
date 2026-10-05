@@ -7,10 +7,10 @@ interface SeoProps {
   jsonLd?: Record<string, unknown>
 }
 
-const SITE_URL_PLACEHOLDER = '[URL SITO WILDFOCUS]'
+const SITE_URL = 'https://wild-focus.vercel.app'
 
 export function Seo({ title, description, path = '/', jsonLd }: SeoProps) {
-  const url = `${SITE_URL_PLACEHOLDER}${path}`
+  const url = `${SITE_URL}${path}`
 
   return (
     <Helmet>

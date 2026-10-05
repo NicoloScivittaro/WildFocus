@@ -19,6 +19,10 @@ export default function PrivacyPolicyPage() {
               utilizzati esclusivamente per rispondere alla richiesta e, se necessario, formulare un preventivo.
             </p>
             <p>
+              L&apos;invio del form avviene tramite il servizio FormSubmit (formsubmit.co), che inoltra la richiesta
+              alla casella email di WildFocus.
+            </p>
+            <p>
               Allo stato attuale il sito non utilizza cookie di profilazione o strumenti di analytics. Per i dettagli
               sui cookie tecnici, consulta la{' '}
               <a href="/cookie-policy" className="text-accent-deep underline">

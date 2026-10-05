@@ -28,3 +28,6 @@ if (typeof window !== 'undefined' && !('IntersectionObserver' in window)) {
   // @ts-expect-error some libraries read the global rather than window
   global.IntersectionObserver = IntersectionObserverStub
 }
+
+// Form submissions must never reach the real FormSubmit endpoint from tests.
+globalThis.fetch = (async () => new Response('{"success":"true"}', { status: 200 })) as typeof fetch

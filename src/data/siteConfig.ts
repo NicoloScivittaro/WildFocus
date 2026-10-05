@@ -17,7 +17,6 @@ export const siteConfig = {
   primaryCta: 'Start a project →',
   startProjectPath: '/progetto',
   secondaryCta: 'Richiedi un preventivo',
-  city: '[CITTÀ]',
   responseTime: '[TEMPO REALE]',
   email: 'Wildfocus.editing@gmail.com',
   whatsappNumber: '[NUMERO WHATSAPP]',
@@ -41,7 +40,6 @@ export const siteConfig = {
     name: 'WildFocus',
     description:
       'Video e contenuti visivi per aziende, creator e attività che vogliono aumentare attenzione, autorevolezza e conversioni.',
-    areaServed: '[CITTÀ]',
     email: 'Wildfocus.editing@gmail.com',
     sameAs: [
       'https://www.instagram.com/wildfocus.editing?stkn=MXQ4aDhhejZwN2VrMg%3D%3D&utm_source=qr',

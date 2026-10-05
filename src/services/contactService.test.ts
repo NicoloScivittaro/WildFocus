@@ -40,3 +40,13 @@ describe('submitContactRequest', () => {
     expect(result.ok).toBe(true)
   })
 })
+
+describe('submitContactRequest delivery', () => {
+  it('reports an error when the email service rejects the request', async () => {
+    const original = globalThis.fetch
+    globalThis.fetch = (async () => new Response('', { status: 500 })) as typeof fetch
+    const result = await submitContactRequest(buildPayload())
+    globalThis.fetch = original
+    expect(result.ok).toBe(false)
+  })
+})

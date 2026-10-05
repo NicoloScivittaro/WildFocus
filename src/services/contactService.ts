@@ -1,14 +1,11 @@
 import type { ContactPayload, ContactResult } from '@/types/contact'
 import { hasElapsedMinimumTime, isHoneypotFilled, sanitizeInput } from '@/lib/antiSpam'
+import { siteConfig } from '@/data/siteConfig'
 
 const MIN_SUBMIT_DELAY_MS = 3000
+const ENDPOINT = `https://formsubmit.co/ajax/${siteConfig.email}`
+const SEND_ERROR = 'Invio non riuscito. Riprova oppure scrivici a ' + siteConfig.email + '.'
 
-/**
- * Mock contact adapter. Replace the body below with a real POST to
- * Formspree / EmailJS / Netlify Forms / a custom backend, forwarding
- * `sanitized`. Keep the honeypot + timing checks even after wiring a real
- * endpoint, and add matching server-side validation there too.
- */
 export async function submitContactRequest(payload: ContactPayload): Promise<ContactResult> {
   if (isHoneypotFilled(payload.honeypot)) {
     return { ok: false, error: 'Richiesta non valida.' }
@@ -29,8 +26,32 @@ export async function submitContactRequest(payload: ContactPayload): Promise<Con
     projectDescription: sanitizeInput(payload.projectDescription),
   }
 
-  await new Promise((resolve) => setTimeout(resolve, 400))
-  console.info('[contactService] mock submission', sanitized)
+  const body = {
+    _subject: `Nuova richiesta dal sito — ${sanitized.fullName}`,
+    _replyto: sanitized.email,
+    _template: 'table',
+    _captcha: 'false',
+    Nome: sanitized.fullName,
+    Email: sanitized.email,
+    Servizio: sanitized.service,
+    'Azienda / progetto': sanitized.companyOrProject ?? '',
+    Descrizione: sanitized.projectDescription,
+    Tempistiche: sanitized.timeline,
+    Budget: sanitized.budget ?? '',
+    'Link materiali': sanitized.materialsLink ?? '',
+    Telefono: sanitized.phone ?? '',
+    'Contatto preferito': sanitized.contactPreference ?? '',
+  }
 
-  return { ok: true }
+  try {
+    const response = await fetch(ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(body),
+    })
+    if (!response.ok) return { ok: false, error: SEND_ERROR }
+    return { ok: true }
+  } catch {
+    return { ok: false, error: SEND_ERROR }
+  }
 }
