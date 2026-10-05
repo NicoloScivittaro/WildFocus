@@ -10,11 +10,14 @@ import {
 } from './quote'
 
 describe('quote catalog', () => {
-  it('lists the 14 packages across reel, fotografia and matrimonio', () => {
+  it('lists the 14 packages across all subcategories', () => {
     expect(quotePackages).toHaveLength(14)
     expect(quotePackagesByCategory('reel')).toHaveLength(4)
-    expect(quotePackagesByCategory('fotografia')).toHaveLength(7)
-    expect(quotePackagesByCategory('matrimonio')).toHaveLength(3)
+    expect(quotePackagesByCategory('shooting')).toHaveLength(3)
+    expect(quotePackagesByCategory('evento')).toHaveLength(3)
+    expect(quotePackagesByCategory('social')).toHaveLength(1)
+    expect(quotePackagesByCategory('cerimonia')).toHaveLength(1)
+    expect(quotePackagesByCategory('wedding')).toHaveLength(2)
   })
 
   it('keeps the exact reel prices and per-unit notes', () => {
@@ -64,13 +67,11 @@ describe('quote catalog', () => {
   })
 
   it('lists the fixed transfer options with round-trip distances', () => {
-    expect(quoteTransfers.map((item) => item.price)).toEqual([0, 20, 30, 50, 40])
+    expect(quoteTransfers.map((item) => item.price)).toEqual([0, 20, 30, 50, 0])
     expect(findQuoteTransfer('entro-20-km').description).toBe('20 km di distanza — 40 km totali andata e ritorno.')
     expect(findQuoteTransfer('entro-30-km').description).toBe('30 km di distanza — 60 km totali andata e ritorno.')
     expect(findQuoteTransfer('entro-50-km').description).toBe('50 km di distanza — 100 km totali andata e ritorno.')
-    expect(findQuoteTransfer('roma-centro').description).toBe(
-      'Circa 40 km di distanza — 80 km totali andata e ritorno.',
-    )
+    expect(findQuoteTransfer('oltre-50-km').description).toBe('Oltre 50 km di distanza — prezzo da stipulare.')
   })
 })
 

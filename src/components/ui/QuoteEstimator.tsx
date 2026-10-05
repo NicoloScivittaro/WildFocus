@@ -173,7 +173,11 @@ export function QuoteEstimator() {
                             <span className="flex items-baseline justify-between gap-3">
                               <span className="text-sm font-semibold text-ink">{option.label}</span>
                               <span className="shrink-0 text-sm text-accent-deep">
-                                {option.price === 0 ? 'Incluso' : currency.format(option.price)}
+                                {option.id === 'oltre-50-km'
+                                  ? 'Da stipulare'
+                                  : option.price === 0
+                                    ? 'Incluso'
+                                    : currency.format(option.price)}
                               </span>
                             </span>
                             <span className="mt-0.5 block text-xs text-ink-muted">{option.description}</span>

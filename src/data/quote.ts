@@ -267,8 +267,11 @@ export const quoteTransfers: QuoteTransferOption[] = [
 /** Servizio del form contatti a cui corrisponde un pacchetto. */
 const packageServiceSlug: Record<QuoteCategoryId, string> = {
   reel: 'video-editing',
-  fotografia: 'fotografia-shooting',
-  matrimonio: 'fotografia-shooting',
+  shooting: 'fotografia-shooting',
+  evento: 'fotografia-shooting',
+  social: 'fotografia-shooting',
+  cerimonia: 'fotografia-shooting',
+  wedding: 'fotografia-shooting',
 }
 
 export function findQuotePackage(packageId: string): QuotePackage | undefined {
