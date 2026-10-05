@@ -29,12 +29,8 @@ export function QuoteEstimator() {
 
   function selectPackage(packageId: string, categoryId: QuoteCategoryId) {
     setSelectedPackages((prev) => {
-      // Rimuovi altri pacchetti della stessa categoria
-      const filtered = prev.filter((id) => {
-        const pkg = quotePackagesByCategory(categoryId).find((p) => p.id === id)
-        return !pkg
-      })
-      // Aggiungi il nuovo pacchetto se non era già selezionato, altrimenti rimuovilo
+      const packageIdsInCategory = quotePackagesByCategory(categoryId).map((p) => p.id)
+      const filtered = prev.filter((id) => !packageIdsInCategory.includes(id))
       return filtered.includes(packageId) ? filtered.filter((id) => id !== packageId) : [...filtered, packageId]
     })
   }
