@@ -197,7 +197,6 @@ export function QuoteEstimator() {
           )}
         </div>
       </div>
-      )}
     </section>
   )
 }
