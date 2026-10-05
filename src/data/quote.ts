@@ -7,6 +7,24 @@ import type {
 } from '@/types/content'
 
 /**
+ * Macrocategorie principali del preventivatore.
+ */
+export const quoteMacroCategories = [
+  {
+    id: 'video',
+    label: 'Video',
+  },
+  {
+    id: 'fotografia',
+    label: 'Fotografia',
+  },
+  {
+    id: 'matrimonio',
+    label: 'Matrimonio',
+  },
+]
+
+/**
  * Listino reale del preventivatore. I prezzi sono quelli pubblicati da
  * WildFocus: nessuno sconto automatico e nessun adeguamento percentuale.
  * Il totale è sempre "pacchetti scelti + trasferimento fisso".
@@ -16,16 +34,37 @@ export const quoteCategories: QuoteCategory[] = [
     id: 'reel',
     label: 'Reel',
     description: 'Video brevi verticali, montati e pronti da pubblicare.',
+    parentId: 'video',
   },
   {
-    id: 'fotografia',
-    label: 'Fotografia',
-    description: 'Shooting, eventi e contenuti fotografici per i social.',
+    id: 'shooting',
+    label: 'Shooting',
+    description: 'Sessioni fotografiche professionali.',
+    parentId: 'fotografia',
   },
   {
-    id: 'matrimonio',
-    label: 'Matrimonio',
-    description: 'Copertura fotografica del giorno del matrimonio.',
+    id: 'evento',
+    label: 'Evento',
+    description: 'Copertura fotografica di eventi.',
+    parentId: 'fotografia',
+  },
+  {
+    id: 'social',
+    label: 'Social',
+    description: 'Contenuti fotografici per i social.',
+    parentId: 'fotografia',
+  },
+  {
+    id: 'cerimonia',
+    label: 'Cerimonia',
+    description: 'Copertura della cerimonia nuziale.',
+    parentId: 'matrimonio',
+  },
+  {
+    id: 'wedding',
+    label: 'Wedding',
+    description: 'Copertura completa del matrimonio.',
+    parentId: 'matrimonio',
   },
 ]
 
@@ -63,31 +102,33 @@ export const quotePackages: QuotePackage[] = [
     features: [],
   },
 
-  // Fotografia
+  // Fotografia - Shooting
   {
     id: 'mini-shooting',
-    category: 'fotografia',
+    category: 'shooting',
     name: 'MINI SHOOTING',
     price: 90,
     features: ['Fino a 1 ora di shooting', 'Selezione e post-produzione', 'Consegna digitale'],
   },
   {
     id: 'shooting-standard',
-    category: 'fotografia',
+    category: 'shooting',
     name: 'SHOOTING STANDARD',
     price: 150,
     features: ['Fino a 2 ore di shooting', 'Selezione e post-produzione', 'Consegna digitale'],
   },
   {
     id: 'shooting-pro',
-    category: 'fotografia',
+    category: 'shooting',
     name: 'SHOOTING PRO',
     price: 220,
     features: ['Fino a 3 ore di shooting', 'Selezione e post-produzione avanzata', 'Consegna digitale'],
   },
+
+  // Fotografia - Evento
   {
     id: 'evento',
-    category: 'fotografia',
+    category: 'evento',
     name: 'EVENTO',
     price: 150,
     features: [
@@ -99,7 +140,7 @@ export const quotePackages: QuotePackage[] = [
   },
   {
     id: 'evento-plus',
-    category: 'fotografia',
+    category: 'evento',
     name: 'EVENTO PLUS',
     price: 250,
     features: [
@@ -111,7 +152,7 @@ export const quotePackages: QuotePackage[] = [
   },
   {
     id: 'evento-completo',
-    category: 'fotografia',
+    category: 'evento',
     name: 'EVENTO COMPLETO',
     price: 350,
     features: [
@@ -121,9 +162,11 @@ export const quotePackages: QuotePackage[] = [
       'Consegna digitale',
     ],
   },
+
+  // Fotografia - Social
   {
     id: 'social-photo',
-    category: 'fotografia',
+    category: 'social',
     name: 'SOCIAL PHOTO',
     price: 120,
     features: [
@@ -137,7 +180,7 @@ export const quotePackages: QuotePackage[] = [
   // Matrimonio
   {
     id: 'cerimonia',
-    category: 'matrimonio',
+    category: 'cerimonia',
     name: 'CERIMONIA',
     price: 450,
     features: [
@@ -152,7 +195,7 @@ export const quotePackages: QuotePackage[] = [
   },
   {
     id: 'wedding',
-    category: 'matrimonio',
+    category: 'wedding',
     name: 'WEDDING',
     price: 750,
     features: [
@@ -168,7 +211,7 @@ export const quotePackages: QuotePackage[] = [
   },
   {
     id: 'wedding-full-day',
-    category: 'matrimonio',
+    category: 'wedding',
     name: 'WEDDING FULL DAY',
     price: 1200,
     features: [

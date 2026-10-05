@@ -21,12 +21,13 @@ export interface PackagePlan {
   priceLabel: 'Preventivo personalizzato'
 }
 
-export type QuoteCategoryId = 'reel' | 'fotografia' | 'matrimonio'
+export type QuoteCategoryId = 'reel' | 'shooting' | 'evento' | 'social' | 'cerimonia' | 'wedding'
 
 export interface QuoteCategory {
   id: QuoteCategoryId
   label: string
   description: string
+  parentId?: string
 }
 
 export interface QuotePackage {

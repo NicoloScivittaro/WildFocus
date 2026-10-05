@@ -4,6 +4,7 @@ import type { QuoteCategoryId } from '@/types/content'
 import { SectionTitle } from '@/components/ui/SectionTitle'
 import {
   estimateQuote,
+  quoteMacroCategories,
   quoteCategories,
   quotePackagesByCategory,
   quoteServiceSlug,
@@ -22,6 +23,7 @@ const currency = new Intl.NumberFormat('it-IT', {
  * fisso, applicato una sola volta e valido per andata e ritorno.
  */
 export function QuoteEstimator() {
+  const [selectedMacroId, setSelectedMacroId] = useState<string | null>(null)
   const [selectedPackages, setSelectedPackages] = useState<string[]>([])
   const [transferId, setTransferId] = useState(quoteTransfers[0].id)
 
@@ -36,6 +38,9 @@ export function QuoteEstimator() {
   }
 
   const hasSelection = estimate.packageCount > 0
+  const categoriesInMacro = selectedMacroId
+    ? quoteCategories.filter((c) => c.parentId === selectedMacroId)
+    : []
 
   const contactParams = new URLSearchParams()
   if (hasSelection) {
@@ -57,88 +62,129 @@ export function QuoteEstimator() {
 
       <div className="mt-8 grid items-start gap-6 md:grid-cols-[1.15fr,0.85fr]">
         <div>
-          {quoteCategories.map((category) => (
-            <fieldset key={category.id} className="mt-8 first:mt-0">
-              <legend className="font-display text-lg text-ink">{category.label}</legend>
-              <p className="mt-1 text-xs text-ink-muted">{category.description}</p>
+          {/* Macrocategorie */}
+          <fieldset className="mt-8 first:mt-0">
+            <legend className="font-display text-lg text-ink">Categoria</legend>
 
-              <div className="mt-3 grid gap-2">
-                {quotePackagesByCategory(category.id).map((pkg) => {
-                  const checked = selectedPackages.includes(pkg.id)
-                  return (
-                    <label
-                      key={pkg.id}
-                      className={`flex cursor-pointer items-start gap-3 rounded-lg border px-4 py-3 transition-colors ${
-                        checked ? 'border-accent-deep bg-base' : 'border-ink/10 bg-base hover:border-accent-deep/40'
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name={`quote-category-${category.id}`}
-                        value={pkg.id}
-                        checked={checked}
-                        onChange={() => selectPackage(pkg.id, category.id)}
-                        className="mt-1"
-                      />
-                      <span className="flex-1">
-                        <span className="flex items-baseline justify-between gap-3">
-                          <span className="text-sm font-semibold text-ink">{pkg.name}</span>
-                          <span className="shrink-0 text-sm text-accent-deep">{currency.format(pkg.price)}</span>
-                        </span>
-                        {pkg.priceNote && <span className="mt-0.5 block text-xs text-ink-muted">{pkg.priceNote}</span>}
-                        {pkg.features.length > 0 && (
-                          <ul className="mt-1 space-y-0.5 text-xs text-ink-muted">
-                            {pkg.features.map((feature) => (
-                              <li key={feature}>· {feature}</li>
-                            ))}
-                          </ul>
-                        )}
-                      </span>
-                    </label>
-                  )
-                })}
-              </div>
-            </fieldset>
-          ))}
+            <div className="mt-3 grid gap-2 sm:grid-cols-3">
+              {quoteMacroCategories.map((macro) => (
+                <label
+                  key={macro.id}
+                  className={`flex cursor-pointer items-start gap-3 rounded-lg border px-4 py-3 transition-colors ${
+                    selectedMacroId === macro.id
+                      ? 'border-accent-deep bg-base'
+                      : 'border-ink/10 bg-base hover:border-accent-deep/40'
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="quote-macro"
+                    value={macro.id}
+                    checked={selectedMacroId === macro.id}
+                    onChange={() => {
+                      setSelectedMacroId(macro.id)
+                      setSelectedPackages([])
+                    }}
+                    className="mt-1"
+                  />
+                  <span className="text-sm font-semibold text-ink">{macro.label}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
 
-          {hasSelection && (
-            <fieldset className="mt-8">
-              <legend className="text-sm font-semibold text-ink">Trasferta</legend>
-              <p className="mt-1 text-xs text-ink-muted">
-                Costo fisso per andata e ritorno, applicato una sola volta al totale.
-              </p>
+          {/* Sottocategorie e pacchetti */}
+          {selectedMacroId && categoriesInMacro.length > 0 && (
+            <>
+              {categoriesInMacro.map((category) => (
+                <fieldset key={category.id} className="mt-8">
+                  <legend className="font-display text-lg text-ink">{category.label}</legend>
+                  {category.description && (
+                    <p className="mt-1 text-xs text-ink-muted">{category.description}</p>
+                  )}
 
-              <div className="mt-3 grid gap-2">
-                {quoteTransfers.map((option) => {
-                  const checked = transferId === option.id
-                  return (
-                    <label
-                      key={option.id}
-                      className={`flex cursor-pointer items-start gap-3 rounded-lg border px-4 py-3 transition-colors ${
-                        checked ? 'border-accent-deep bg-base' : 'border-ink/10 bg-base hover:border-accent-deep/40'
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="quote-transfer"
-                        checked={checked}
-                        onChange={() => setTransferId(option.id)}
-                        className="mt-1"
-                      />
-                      <span className="flex-1">
-                        <span className="flex items-baseline justify-between gap-3">
-                          <span className="text-sm font-semibold text-ink">{option.label}</span>
-                          <span className="shrink-0 text-sm text-accent-deep">
-                            {option.price === 0 ? 'Incluso' : currency.format(option.price)}
+                  <div className="mt-3 grid gap-2">
+                    {quotePackagesByCategory(category.id).map((pkg) => {
+                      const checked = selectedPackages.includes(pkg.id)
+                      return (
+                        <label
+                          key={pkg.id}
+                          className={`flex cursor-pointer items-start gap-3 rounded-lg border px-4 py-3 transition-colors ${
+                            checked ? 'border-accent-deep bg-base' : 'border-ink/10 bg-base hover:border-accent-deep/40'
+                          }`}
+                        >
+                          <input
+                            type="radio"
+                            name={`quote-category-${category.id}`}
+                            value={pkg.id}
+                            checked={checked}
+                            onChange={() => selectPackage(pkg.id, category.id)}
+                            className="mt-1"
+                          />
+                          <span className="flex-1">
+                            <span className="flex items-baseline justify-between gap-3">
+                              <span className="text-sm font-semibold text-ink">{pkg.name}</span>
+                              <span className="shrink-0 text-sm text-accent-deep">{currency.format(pkg.price)}</span>
+                            </span>
+                            {pkg.priceNote && (
+                              <span className="mt-0.5 block text-xs text-ink-muted">{pkg.priceNote}</span>
+                            )}
+                            {pkg.features.length > 0 && (
+                              <ul className="mt-1 space-y-0.5 text-xs text-ink-muted">
+                                {pkg.features.map((feature) => (
+                                  <li key={feature}>· {feature}</li>
+                                ))}
+                              </ul>
+                            )}
                           </span>
-                        </span>
-                        <span className="mt-0.5 block text-xs text-ink-muted">{option.description}</span>
-                      </span>
-                    </label>
-                  )
-                })}
-              </div>
-            </fieldset>
+                        </label>
+                      )
+                    })}
+                  </div>
+                </fieldset>
+              ))}
+
+              {/* Trasferta */}
+              {hasSelection && (
+                <fieldset className="mt-8">
+                  <legend className="text-sm font-semibold text-ink">Trasferta</legend>
+                  <p className="mt-1 text-xs text-ink-muted">
+                    Costo fisso per andata e ritorno, applicato una sola volta al totale.
+                  </p>
+
+                  <div className="mt-3 grid gap-2">
+                    {quoteTransfers.map((option) => {
+                      const checked = transferId === option.id
+                      return (
+                        <label
+                          key={option.id}
+                          className={`flex cursor-pointer items-start gap-3 rounded-lg border px-4 py-3 transition-colors ${
+                            checked ? 'border-accent-deep bg-base' : 'border-ink/10 bg-base hover:border-accent-deep/40'
+                          }`}
+                        >
+                          <input
+                            type="radio"
+                            name="quote-transfer"
+                            checked={checked}
+                            onChange={() => setTransferId(option.id)}
+                            className="mt-1"
+                          />
+                          <span className="flex-1">
+                            <span className="flex items-baseline justify-between gap-3">
+                              <span className="text-sm font-semibold text-ink">{option.label}</span>
+                              <span className="shrink-0 text-sm text-accent-deep">
+                                {option.price === 0 ? 'Incluso' : currency.format(option.price)}
+                              </span>
+                            </span>
+                            <span className="mt-0.5 block text-xs text-ink-muted">{option.description}</span>
+                          </span>
+                        </label>
+                      )
+                    })}
+                  </div>
+                </fieldset>
+              )}
+            </>
           )}
         </div>
 
