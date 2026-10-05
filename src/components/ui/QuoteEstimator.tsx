@@ -81,10 +81,7 @@ export function QuoteEstimator() {
                     name="quote-macro"
                     value={macro.id}
                     checked={selectedMacroId === macro.id}
-                    onChange={() => {
-                      setSelectedMacroId(macro.id)
-                      setSelectedPackages([])
-                    }}
+                    onChange={() => setSelectedMacroId(macro.id)}
                     className="mt-1"
                   />
                   <span className="text-sm font-semibold text-ink">{macro.label}</span>
