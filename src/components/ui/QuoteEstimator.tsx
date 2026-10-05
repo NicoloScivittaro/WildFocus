@@ -39,11 +39,11 @@ export function QuoteEstimator() {
 
   const contactParams = new URLSearchParams()
   if (hasSelection) {
-    contactParams.set(‘pacchetti’, selectedPackages.join(‘,’))
-    contactParams.set(‘trasferimento’, transferId)
-    contactParams.set(‘totale’, String(estimate.total))
+    contactParams.set('pacchetti', selectedPackages.join(','))
+    contactParams.set('trasferimento', transferId)
+    contactParams.set('totale', String(estimate.total))
     const serviceSlug = quoteServiceSlug(selectedPackages)
-    if (serviceSlug) contactParams.set(‘servizio’, serviceSlug)
+    if (serviceSlug) contactParams.set('servizio', serviceSlug)
   }
   const contactHref = `/contatti?${contactParams.toString()}`
 
@@ -52,7 +52,7 @@ export function QuoteEstimator() {
       <SectionTitle
         eyebrow="Preventivo"
         title="Calcola un preventivo indicativo"
-        description="Scegli i pacchetti che ti servono da una o più categorie e aggiungi l’eventuale trasferta."
+        description="Scegli i pacchetti che ti servono da una o più categorie e aggiungi l'eventuale trasferta."
       />
 
       <div className="mt-8 grid items-start gap-6 md:grid-cols-[1.15fr,0.85fr]">
@@ -69,7 +69,7 @@ export function QuoteEstimator() {
                     <label
                       key={pkg.id}
                       className={`flex cursor-pointer items-start gap-3 rounded-lg border px-4 py-3 transition-colors ${
-                        checked ? ‘border-accent-deep bg-base’ : ‘border-ink/10 bg-base hover:border-accent-deep/40’
+                        checked ? 'border-accent-deep bg-base' : 'border-ink/10 bg-base hover:border-accent-deep/40'
                       }`}
                     >
                       <input
@@ -102,43 +102,43 @@ export function QuoteEstimator() {
           ))}
 
           {hasSelection && (
-          <fieldset className="mt-8">
-            <legend className="text-sm font-semibold text-ink">Trasferta</legend>
-            <p className="mt-1 text-xs text-ink-muted">
-              Costo fisso per andata e ritorno, applicato una sola volta al totale.
-            </p>
+            <fieldset className="mt-8">
+              <legend className="text-sm font-semibold text-ink">Trasferta</legend>
+              <p className="mt-1 text-xs text-ink-muted">
+                Costo fisso per andata e ritorno, applicato una sola volta al totale.
+              </p>
 
-            <div className="mt-3 grid gap-2">
-              {quoteTransfers.map((option) => {
-                const checked = transferId === option.id
-                return (
-                  <label
-                    key={option.id}
-                    className={`flex cursor-pointer items-start gap-3 rounded-lg border px-4 py-3 transition-colors ${
-                      checked ? 'border-accent-deep bg-base' : 'border-ink/10 bg-base hover:border-accent-deep/40'
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name="quote-transfer"
-                      checked={checked}
-                      onChange={() => setTransferId(option.id)}
-                      className="mt-1"
-                    />
-                    <span className="flex-1">
-                      <span className="flex items-baseline justify-between gap-3">
-                        <span className="text-sm font-semibold text-ink">{option.label}</span>
-                        <span className="shrink-0 text-sm text-accent-deep">
-                          {option.price === 0 ? 'Incluso' : currency.format(option.price)}
+              <div className="mt-3 grid gap-2">
+                {quoteTransfers.map((option) => {
+                  const checked = transferId === option.id
+                  return (
+                    <label
+                      key={option.id}
+                      className={`flex cursor-pointer items-start gap-3 rounded-lg border px-4 py-3 transition-colors ${
+                        checked ? 'border-accent-deep bg-base' : 'border-ink/10 bg-base hover:border-accent-deep/40'
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="quote-transfer"
+                        checked={checked}
+                        onChange={() => setTransferId(option.id)}
+                        className="mt-1"
+                      />
+                      <span className="flex-1">
+                        <span className="flex items-baseline justify-between gap-3">
+                          <span className="text-sm font-semibold text-ink">{option.label}</span>
+                          <span className="shrink-0 text-sm text-accent-deep">
+                            {option.price === 0 ? 'Incluso' : currency.format(option.price)}
+                          </span>
                         </span>
+                        <span className="mt-0.5 block text-xs text-ink-muted">{option.description}</span>
                       </span>
-                      <span className="mt-0.5 block text-xs text-ink-muted">{option.description}</span>
-                    </span>
-                  </label>
-                )
-              })}
-            </div>
-          </fieldset>
+                    </label>
+                  )
+                })}
+              </div>
+            </fieldset>
           )}
         </div>
 
