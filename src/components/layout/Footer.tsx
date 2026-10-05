@@ -29,7 +29,6 @@ export function Footer() {
           <p className="text-sm font-semibold text-ink">Contatti</p>
           <ul className="mt-3 space-y-2 text-sm text-ink-muted">
             <li>{siteConfig.email}</li>
-            <li>{siteConfig.city}</li>
           </ul>
         </div>
 
