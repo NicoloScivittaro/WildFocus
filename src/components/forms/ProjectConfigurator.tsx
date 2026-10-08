@@ -83,7 +83,7 @@ export function ProjectConfigurator() {
       <div role="status" className="rounded-xl2 border border-accent/40 bg-surface p-8 text-center md:p-12">
         <h2 className="font-display text-3xl text-ink">Sounds like a WildFocus project.</h2>
         <p className="mt-3 text-ink-muted">
-          Brief ricevuto. Ti rispondiamo entro [TEMPO REALE]: se il progetto è compatibile organizziamo una breve call,
+          Brief ricevuto. Ti rispondiamo entro 24h: se il progetto è compatibile organizziamo una breve call,
           poi arriva il preventivo su misura.
         </p>
         <p className="mt-4 text-sm text-ink-muted">

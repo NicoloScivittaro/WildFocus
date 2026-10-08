@@ -17,7 +17,7 @@ export const siteConfig = {
   primaryCta: 'Start a project →',
   startProjectPath: '/progetto',
   secondaryCta: 'Richiedi un preventivo',
-  responseTime: '[TEMPO REALE]',
+  responseTime: 'entro 24h',
   email: 'Wildfocus.editing@gmail.com',
   whatsappNumber: '[NUMERO WHATSAPP]',
   whatsappLink: 'https://wa.me/[NUMERO WHATSAPP]',

@@ -61,7 +61,7 @@ export function ContactForm({ initialService = '', initialDescription = '' }: Co
       <div role="status" className="rounded-xl2 border border-accent/40 bg-surface p-8 text-center">
         <h3 className="font-display text-2xl text-ink">Richiesta inviata</h3>
         <p className="mt-3 text-ink-muted">
-          Grazie! Dopo la richiesta riceverai una prima risposta entro [TEMPO REALE]. Se il progetto è compatibile,
+          Grazie! Dopo la richiesta riceverai una prima risposta entro 24h. Se il progetto è compatibile,
           organizziamo una breve call conoscitiva, poi ti inviamo un preventivo su misura.
         </p>
       </div>
@@ -294,7 +294,7 @@ export function ContactForm({ initialService = '', initialDescription = '' }: Co
       </div>
 
       <p className="mt-4 text-xs text-ink-muted">
-        Dopo la richiesta riceverai una prima risposta entro [TEMPO REALE]. Se il progetto è compatibile,
+        Dopo la richiesta riceverai una prima risposta entro 24h. Se il progetto è compatibile,
         organizziamo una breve call conoscitiva, poi ti inviamo un preventivo su misura.
       </p>
     </form>
