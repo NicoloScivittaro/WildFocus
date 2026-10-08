@@ -55,15 +55,6 @@ export const services: Service[] = [
     ctaLabel: 'Parliamo del tuo progetto',
   },
   {
-    slug: 'contenuti-social',
-    title: 'Contenuti Social',
-    outcomeStatement: "Ogni contenuto ha uno scopo: attirare attenzione, raccontare valore e portare il pubblico a compiere un'azione.",
-    problemSolved: 'Pubblichi in modo irregolare o i contenuti non sono adattati al formato e al ritmo di ogni piattaforma.',
-    includes: ['Pacchetti di contenuti', 'Adattamento multipiattaforma', 'Gestione di grandi volumi di materiale'],
-    examples: ['Piano contenuti mensile', 'Adattamento di un video in 5 formati', 'Serie coordinata multi-piattaforma'],
-    ctaLabel: 'Parliamo del tuo progetto',
-  },
-  {
     slug: 'produzione-brand-aziende',
     title: 'Produzione per Brand e Aziende',
     outcomeStatement: "Dalla prima idea alla consegna finale, trasformiamo il tuo progetto in un'esperienza visiva coerente e memorabile.",
