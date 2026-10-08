@@ -19,8 +19,8 @@ export const siteConfig = {
   secondaryCta: 'Richiedi un preventivo',
   responseTime: 'entro 24h',
   email: 'Wildfocus.editing@gmail.com',
-  whatsappNumber: '[NUMERO WHATSAPP]',
-  whatsappLink: 'https://wa.me/[NUMERO WHATSAPP]',
+  whatsappNumber: '+39 351 908 9064',
+  whatsappLink: 'https://wa.me/393519089064',
   socials: [
     {
       platform: 'Instagram',
