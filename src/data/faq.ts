@@ -23,10 +23,6 @@ export const faqItems: FaqItem[] = [
     answer: 'Sì, per aziende, creator e professionisti che hanno bisogno di contenuti con continuità. Vedi la pagina Collaborazioni.',
   },
   {
-    question: 'Consegnate i file sorgente?',
-    answer: 'I file sorgente possono essere inclusi su richiesta e vengono concordati in fase di preventivo.',
-  },
-  {
     question: 'Lavorate con aziende e privati?',
     answer: 'Sì, lavoriamo sia con aziende sia con professionisti e privati che hanno bisogno di contenuti di qualità.',
   },

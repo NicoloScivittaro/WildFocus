@@ -23,10 +23,35 @@ export const services: Service[] = [
     slug: 'fotografia-shooting',
     title: 'Fotografia e Shooting',
     outcomeStatement:
-      'Costruiamo un set di immagini coerenti che raccontano il tuo brand o il tuo prodotto con lo stesso linguaggio visivo, ovunque vengano pubblicate.',
-    problemSolved: 'Le tue foto attuali sono discontinue, non trasmettono la qualità reale del tuo lavoro o non funzionano sui social.',
-    includes: ['Shooting brand e prodotto', 'Ritratti professionali', 'Backstage e behind the scenes'],
-    examples: ['Catalogo prodotto per e-commerce', 'Ritratti team per il sito', 'Backstage per i social'],
+      'Realizziamo immagini che valorizzano il tuo brand, raccontano ciò che fai e ti aiutano a presentarti al meglio, online e offline.',
+    problemSolved:
+      'Le tue foto attuali sono discontinue, non trasmettono la qualità reale del tuo lavoro o non rispecchiano la tua identità.',
+    includes: [
+      'Shooting per brand e attività',
+      'Fotografia di prodotto',
+      'Ritratti professionali',
+      'Backstage e behind the scenes',
+      'Post-produzione fotografica',
+    ],
+    examples: ['Shooting per locali e ristoranti', 'Foto prodotto per brand', 'Ritratti e team aziendali'],
+    ctaLabel: 'Parliamo del tuo progetto',
+  },
+  {
+    slug: 'eventi-cerimonie',
+    title: 'Eventi e Cerimonie',
+    outcomeStatement:
+      'Raccontiamo i momenti più importanti attraverso foto e video spontanei, emozionanti e curati in ogni dettaglio, per trasformare il tuo evento in un ricordo da rivivere nel tempo.',
+    problemSolved:
+      'Vuoi che i tuoi momenti speciali siano catturati con professionalità, dalle cerimonie importanti alle feste private, con uno stile coerente e emozionale.',
+    includes: [
+      'Matrimoni',
+      '18esimi e compleanni',
+      'Feste ed eventi privati',
+      'Cerimonie',
+      'Foto e video emozionali',
+      'Highlight e contenuti social',
+    ],
+    examples: ['Video emozionale del matrimonio', 'Foto e Reel per 18esimi', 'Reportage di feste ed eventi'],
     ctaLabel: 'Parliamo del tuo progetto',
   },
   {
